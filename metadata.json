@@ -1,0 +1,7 @@
+{
+  "name": "Laurentian EcoClean Co.",
+  "description": "Premium, eco-friendly residential and commercial cleaning services across Vancouver and the Lower Mainland, BC.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
