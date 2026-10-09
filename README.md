@@ -119,6 +119,29 @@ The project is fully configured for zero-configuration, error-free deployment on
 
 ---
 
+## 📈 Google Search Central SEO Starter Guide Compliance
+
+The website follows best practices outlined in [Google's SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide):
+
+1. **Rich Snippets & Structured Data (JSON-LD `@graph`)**:
+   - `CleaningService` / `LocalBusiness` entity with coordinates, opening hours, aggregate ratings (4.9/5 from 148 reviews), and full service catalog.
+   - `FAQPage` schema enabling interactive question dropdowns directly in Google Search results.
+   - `BreadcrumbList` schema for hierarchical navigation display.
+   - `WebSite` schema for sitelinks eligibility.
+2. **Descriptive Anchor Links**:
+   - Replaced generic CTAs with context-rich anchor text (e.g., *"Request Residential Cleaning Quote"*, *"Request Move-Out Cleaning Quote"*) providing clear intent signals to search crawlers.
+3. **Core Web Vitals & Image Optimization**:
+   - Preconnect & DNS-prefetch headers for remote image assets (`images.unsplash.com`).
+   - Prioritized LCP hero image with `fetchpriority="high"`, explicit dimensions (`1200x900`), and `decoding="async"`.
+   - Lazy-loading on all below-the-fold imagery.
+4. **Crawlability & Technical SEO**:
+   - Valid XML sitemap (`/sitemap.xml`) referencing all 8 primary sections.
+   - Clean `robots.txt` (`/robots.txt`) with sitemap location directive.
+   - Advanced robot snippet controls: `max-image-preview:large`, `max-snippet:-1`, `max-video-preview:-1`.
+   - Semantic landmarks and `<address>` wrapping for business contact data.
+
+---
+
 ## 📄 License & Attribution
 
 &copy; 2026 Laurentian EcoClean Co. All rights reserved. Registered in British Columbia, Canada.

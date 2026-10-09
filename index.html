@@ -11,9 +11,13 @@
   <title>Laurentian EcoClean Co. | Premium Home & Office Cleaning Services Vancouver, BC</title>
   <meta name="description" content="Award-winning, insured residential and commercial cleaning services across Vancouver and the Lower Mainland. Eco-certified non-toxic products, 100% bonded staff, and satisfaction guaranteed. Call +1 (604) 555-0189 for a free quote.">
   <meta name="keywords" content="Vancouver cleaning services, residential cleaning Vancouver, deep cleaning BC, move out cleaning Lower Mainland, office cleaning Burnaby, eco-friendly maid service">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="author" content="Laurentian EcoClean Co.">
   <meta name="theme-color" content="#184A3B">
+
+  <!-- Performance Preconnect for Core Web Vitals (LCP) -->
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  <link rel="dns-prefetch" href="https://images.unsplash.com">
 
   <!-- Google Search Console Verification -->
   <meta name="google-site-verification" content="google74ce7ea551289a38">
@@ -23,7 +27,7 @@
   <link rel="alternate icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23184A3B'/%3E%3Cpath d='M16 4.5L13.2 11.8L5.5 12.8L11.2 18L9.5 25.8L16 21.8L22.5 25.8L20.8 18L26.5 12.8L18.8 11.8L16 4.5Z' fill='%23D4901A' stroke='%23FFFFFF' stroke-width='0.75'/%3E%3C/svg%3E">
   <link rel="apple-touch-icon" href="/favicon.svg">
 
-  <!-- Canonical URL Placeholder -->
+  <!-- Canonical URL & Sitemap -->
   <link rel="canonical" href="https://laurentians.vercel.app">
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 
@@ -33,8 +37,10 @@
   <meta property="og:site_name" content="Laurentian EcoClean Co.">
   <meta property="og:title" content="Laurentian EcoClean Co. | Premium Home & Office Cleaning Services">
   <meta property="og:description" content="Insured, eco-friendly residential and commercial cleaning in Vancouver and the Lower Mainland. Exceptional attention to detail with non-toxic solutions.">
-  <meta property="og:url" content="https://laurentianecoclean.ca">
+  <meta property="og:url" content="https://laurentians.vercel.app">
   <meta property="og:image" content="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="900">
   <meta property="og:image:alt" content="Immaculate, sunlit Vancouver living room cleaned by Laurentian EcoClean Co.">
 
   <!-- Twitter Card -->
@@ -42,65 +48,233 @@
   <meta name="twitter:title" content="Laurentian EcoClean Co. | Premium Cleaning Services Vancouver">
   <meta name="twitter:description" content="Eco-certified residential & commercial cleaning in Vancouver, BC. Bonded professionals, transparent pricing, and 100% satisfaction guarantee.">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80">
+  <meta name="twitter:image:alt" content="Laurentian EcoClean Co. professional cleaning in Vancouver">
 
   <!-- =======================================================================
-       STRUCTURED DATA (JSON-LD) - LocalBusiness / CleaningService
-       Update your local Canadian business credentials, coordinates, and hours here.
+       STRUCTURED DATA (JSON-LD) - Google Search Central Graph
+       Enables Rich Snippets for LocalBusiness, FAQ Accordion & Breadcrumbs.
        ======================================================================= -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "CleaningService",
-    "name": "Laurentian EcoClean Co.",
-    "alternateName": "Laurentian EcoClean",
-    "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80",
-    "url": "https://laurentianecoclean.ca",
-    "telephone": "+1-604-555-0189",
-    "email": "hello@laurentianecoclean.ca",
-    "priceRange": "$$",
-    "currenciesAccepted": "CAD",
-    "paymentAccepted": "Cash, Credit Card, Interac e-Transfer",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "742 Burrard Street, Suite 500",
-      "addressLocality": "Vancouver",
-      "addressRegion": "BC",
-      "postalCode": "V6Z 2S7",
-      "addressCountry": "CA"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 49.2827,
-      "longitude": -123.1207
-    },
-    "areaServed": [
-      { "@type": "City", "name": "Vancouver" },
-      { "@type": "City", "name": "Burnaby" },
-      { "@type": "City", "name": "Richmond" },
-      { "@type": "City", "name": "North Vancouver" },
-      { "@type": "City", "name": "West Vancouver" },
-      { "@type": "City", "name": "Surrey" },
-      { "@type": "City", "name": "New Westminster" },
-      { "@type": "City", "name": "Coquitlam" }
-    ],
-    "openingHoursSpecification": [
+    "@graph": [
       {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        "opens": "07:30",
-        "closes": "19:00"
+        "@type": "CleaningService",
+        "@id": "https://laurentians.vercel.app/#business",
+        "name": "Laurentian EcoClean Co.",
+        "alternateName": "Laurentian EcoClean",
+        "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80",
+        "url": "https://laurentians.vercel.app",
+        "telephone": "+1-604-555-0189",
+        "email": "hello@laurentianecoclean.ca",
+        "priceRange": "$$",
+        "currenciesAccepted": "CAD",
+        "paymentAccepted": "Cash, Credit Card, Interac e-Transfer",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "742 Burrard Street, Suite 500",
+          "addressLocality": "Vancouver",
+          "addressRegion": "BC",
+          "postalCode": "V6Z 2S7",
+          "addressCountry": "CA"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 49.2827,
+          "longitude": -123.1207
+        },
+        "areaServed": [
+          { "@type": "City", "name": "Vancouver" },
+          { "@type": "City", "name": "Burnaby" },
+          { "@type": "City", "name": "Richmond" },
+          { "@type": "City", "name": "North Vancouver" },
+          { "@type": "City", "name": "West Vancouver" },
+          { "@type": "City", "name": "Surrey" },
+          { "@type": "City", "name": "New Westminster" },
+          { "@type": "City", "name": "Coquitlam" }
+        ],
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "07:30",
+            "closes": "19:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Saturday",
+            "opens": "08:30",
+            "closes": "17:00"
+          }
+        ],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "148",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Professional Cleaning Services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Residential Cleaning",
+                "description": "Comprehensive maintenance care for apartments, townhomes, and houses."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Deep Cleaning",
+                "description": "Intensive top-to-bottom scrub and sanitization for Canadian homes."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Move-In / Move-Out Cleaning",
+                "description": "Full deposit-return turnover service for tenants and homeowners."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Office & Commercial Cleaning",
+                "description": "Eco-friendly janitorial services for corporate spaces and clinics."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Recurring Cleaning",
+                "description": "Scheduled weekly, bi-weekly, or monthly cleaning maintenance."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Post-Construction Cleaning",
+                "description": "HEPA dust extraction and fine particulate residue removal."
+              }
+            }
+          ]
+        },
+        "sameAs": [
+          "https://facebook.com",
+          "https://instagram.com",
+          "https://linkedin.com"
+        ]
       },
       {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Saturday",
-        "opens": "08:30",
-        "closes": "17:00"
+        "@type": "WebSite",
+        "@id": "https://laurentians.vercel.app/#website",
+        "url": "https://laurentians.vercel.app",
+        "name": "Laurentian EcoClean Co.",
+        "description": "Premium Eco-Friendly Cleaning Services in Vancouver, BC",
+        "publisher": {
+          "@id": "https://laurentians.vercel.app/#business"
+        },
+        "inLanguage": "en-CA"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://laurentians.vercel.app/#breadcrumbs",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://laurentians.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Services",
+            "item": "https://laurentians.vercel.app/services"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "About Us",
+            "item": "https://laurentians.vercel.app/about"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Service Areas",
+            "item": "https://laurentians.vercel.app/service-areas"
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "name": "Contact",
+            "item": "https://laurentians.vercel.app/contact"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://laurentians.vercel.app/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do you bring your own cleaning supplies and equipment?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, our specialists arrive fully equipped with professional-grade microfiber cloths, HEPA filtration vacuums, extension dusters, and certified non-toxic, eco-friendly cleaning formulas."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are your cleaning staff insured and background-checked?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Every member of our team is an employee, thoroughly vetted through certified Canadian criminal record background checks, bonded, and covered under our $5,000,000 commercial liability policy and WorkSafeBC coverage."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are your cleaning formulas safe for pets and young children?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Absolutely. We exclusively utilize non-toxic, biodegradable, zero-VOC plant-derived cleaning agents meeting Canadian ecological benchmarks without corrosive bleaches, artificial fragrances, or ammonia."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need to be home while your team is cleaning?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is entirely up to your preference. Many clients leave a lockbox code or key with concierge. We maintain strict security protocols for keys and access codes."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is your cancellation and rescheduling policy?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We ask for at least 24 hours of advance notice if you need to reschedule or cancel your appointment. Rescheduling within 24 hours is completely free of charge."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens if I am not satisfied with the cleaning?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We stand firmly behind our 100% Satisfaction Guarantee. If any area does not meet your expectations, contact us within 24 hours and we return to re-clean the flagged areas at no additional cost."
+            }
+          }
+        ]
       }
-    ],
-    "sameAs": [
-      "https://facebook.com",
-      "https://instagram.com",
-      "https://linkedin.com"
     ]
   }
   </script>
@@ -181,6 +355,10 @@
     a {
       color: inherit;
       text-decoration: none;
+    }
+
+    address {
+      font-style: normal;
     }
 
     button {
@@ -1979,6 +2157,8 @@
                 width="1200" 
                 height="900" 
                 loading="eager"
+                fetchpriority="high"
+                decoding="async"
               >
             </div>
             <div class="hero-floating-card">
@@ -2085,6 +2265,7 @@
                 src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80" 
                 alt="Pristine, sanitized family living room and polished hardwood floors" 
                 loading="lazy" 
+                decoding="async"
                 width="600" 
                 height="400"
               >
@@ -2111,7 +2292,7 @@
               </ul>
               <div class="service-action">
                 <a href="tel:+16045550189" aria-label="Book Residential Cleaning by calling (604) 555-0189">
-                  Request Quote 
+                  Request Residential Cleaning Quote 
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
                 </a>
               </div>
@@ -2125,6 +2306,7 @@
                 src="https://images.unsplash.com/photo-1563453392212-326f5e854473?auto=format&fit=crop&w=600&q=80" 
                 alt="Deep detail scrubbing and disinfection of modern kitchen counters and appliances" 
                 loading="lazy" 
+                decoding="async" 
                 width="600" 
                 height="400"
               >
@@ -2151,7 +2333,7 @@
               </ul>
               <div class="service-action">
                 <a href="tel:+16045550189" aria-label="Book Deep Cleaning by calling (604) 555-0189">
-                  Request Quote 
+                  Request Deep Cleaning Quote 
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
                 </a>
               </div>
@@ -2165,6 +2347,7 @@
                 src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" 
                 alt="Empty, immaculate luxury apartment ready for new Canadian tenants" 
                 loading="lazy" 
+                decoding="async" 
                 width="600" 
                 height="400"
               >
@@ -2191,7 +2374,7 @@
               </ul>
               <div class="service-action">
                 <a href="tel:+16045550189" aria-label="Book Move-In Move-Out Cleaning by calling (604) 555-0189">
-                  Request Quote 
+                  Request Move-Out Cleaning Quote 
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
                 </a>
               </div>
@@ -2205,6 +2388,7 @@
                 src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80" 
                 alt="Bright, sanitized corporate open office space with spotless executive desks" 
                 loading="lazy" 
+                decoding="async" 
                 width="600" 
                 height="400"
               >
@@ -2231,7 +2415,7 @@
               </ul>
               <div class="service-action">
                 <a href="tel:+16045550189" aria-label="Book Office Cleaning by calling (604) 555-0189">
-                  Request Quote 
+                  Request Office Cleaning Quote 
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
                 </a>
               </div>
@@ -2245,6 +2429,7 @@
                 src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80" 
                 alt="Regularly maintained bright, airy home with fresh linens and dust-free surfaces" 
                 loading="lazy" 
+                decoding="async" 
                 width="600" 
                 height="400"
               >
@@ -2271,7 +2456,7 @@
               </ul>
               <div class="service-action">
                 <a href="tel:+16045550189" aria-label="Book Recurring Cleaning by calling (604) 555-0189">
-                  Request Quote 
+                  Request Recurring Cleaning Quote 
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
                 </a>
               </div>
@@ -2285,6 +2470,7 @@
                 src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=600&q=80" 
                 alt="Renovated high-ceiling residence cleared of fine plaster dust and building debris" 
                 loading="lazy" 
+                decoding="async" 
                 width="600" 
                 height="400"
               >
@@ -2311,7 +2497,7 @@
               </ul>
               <div class="service-action">
                 <a href="tel:+16045550189" aria-label="Book Post-Construction Cleaning by calling (604) 555-0189">
-                  Request Quote 
+                  Request Post-Construction Quote 
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
                 </a>
               </div>
@@ -2334,6 +2520,7 @@
                 src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=1000&q=80" 
                 alt="Uniformed Laurentian EcoClean team member utilizing non-toxic plant-based cleaning solutions" 
                 loading="lazy" 
+                decoding="async" 
                 width="1000" 
                 height="750"
               >
@@ -2681,7 +2868,7 @@
                 Professional cleaning services for residential homes, corporate offices, and real estate transitions.
               </p>
 
-              <div class="contact-info-list">
+              <address class="contact-info-list">
                 <!-- Address -->
                 <div class="contact-info-item">
                   <div class="contact-icon-bubble" aria-hidden="true">
@@ -2721,7 +2908,7 @@
                     </p>
                   </div>
                 </div>
-              </div>
+              </address>
 
               <!-- Strong Action Buttons -->
               <div class="contact-actions">
