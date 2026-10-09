@@ -1960,6 +1960,486 @@
       }
     }
 
+    /* -------------------------------------------------------------------------
+       17. ONLINE BOOKING & GOOGLE SHEETS SYNC SYSTEM
+       ------------------------------------------------------------------------- */
+    .booking-section {
+      background-color: var(--color-surface);
+      border-top: 1px solid var(--color-neutral-200);
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+
+    .booking-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      margin-top: 40px;
+    }
+
+    @media (min-width: 992px) {
+      .booking-layout {
+        grid-template-columns: 1.5fr 1fr;
+        align-items: start;
+      }
+    }
+
+    .booking-form-card {
+      background-color: var(--color-white);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      box-shadow: 0 4px 20px rgba(20, 34, 29, 0.06);
+      border: 1px solid var(--color-neutral-200);
+    }
+
+    @media (max-width: 580px) {
+      .booking-form-card {
+        padding: 24px 18px;
+      }
+    }
+
+    .booking-step {
+      margin-bottom: 32px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+    .booking-step:last-of-type {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .booking-step-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .booking-step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--brand-primary);
+      color: var(--color-white);
+      font-weight: 800;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .booking-step-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--brand-dark);
+      margin: 0;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    @media (min-width: 640px) {
+      .form-grid-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--color-neutral-800);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .form-label-optional {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--color-neutral-500);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      color: var(--color-neutral-900);
+      background-color: var(--color-white);
+      border: 1px solid var(--color-neutral-300);
+      border-radius: var(--radius-sm);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      font-family: inherit;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 3px rgba(24, 74, 59, 0.15);
+    }
+
+    .form-hint {
+      font-size: 0.8rem;
+      color: var(--color-neutral-500);
+      margin-top: 2px;
+    }
+
+    /* Live Quote & Google Sheets Card */
+    .booking-summary-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: sticky;
+      top: 100px;
+    }
+
+    .quote-card {
+      background-color: var(--brand-dark);
+      color: var(--color-white);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      box-shadow: 0 10px 30px rgba(20, 34, 29, 0.2);
+    }
+
+    .quote-header-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--brand-secondary);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .quote-amount-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .quote-amount {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--color-white);
+      line-height: 1;
+    }
+
+    .quote-subtext {
+      font-size: 0.85rem;
+      color: var(--color-neutral-300);
+      margin-bottom: 20px;
+    }
+
+    .quote-breakdown-box {
+      background-color: rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-size: 0.85rem;
+      color: var(--color-neutral-200);
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .quote-features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--color-neutral-200);
+      margin-bottom: 24px;
+    }
+    .quote-features-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .quote-features-list svg {
+      color: var(--brand-secondary);
+      flex-shrink: 0;
+    }
+
+    /* Google Sheets Sync Widget */
+    .google-sync-card {
+      background-color: var(--color-white);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      border: 1px solid var(--color-neutral-200);
+      box-shadow: 0 4px 16px rgba(20, 34, 29, 0.05);
+    }
+
+    .google-sync-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--brand-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .google-sync-indicator {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+    .google-sync-indicator.connected {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+    }
+    .google-sync-indicator.disconnected {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+    }
+
+    .status-pulse-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #22c55e;
+      margin-top: 5px;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.8; }
+    }
+
+    .status-neutral-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #94a3b8;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    .sheet-sync-subtext {
+      font-size: 0.78rem;
+      color: var(--color-neutral-600);
+      margin-top: 2px;
+    }
+
+    /* Official Sign in with Google Button Styling (Workspace Skill specification) */
+    .gsi-material-button {
+      user-select: none;
+      background-color: #FFFFFF;
+      background-image: none;
+      border: 1px solid #747775;
+      border-radius: 6px;
+      box-sizing: border-box;
+      color: #1f1f1f;
+      cursor: pointer;
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      height: 42px;
+      letter-spacing: 0.25px;
+      outline: none;
+      overflow: hidden;
+      padding: 0 16px;
+      position: relative;
+      text-align: center;
+      vertical-align: middle;
+      white-space: nowrap;
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .gsi-material-button:hover {
+      box-shadow: 0 1px 3px 0 rgba(60, 64, 67, .30), 0 1px 4px 1px rgba(60, 64, 67, .15);
+      background-color: #f8fafd;
+      border-color: #5f6368;
+    }
+    .gsi-material-button:focus-visible {
+      outline: 2px solid #1a73e8;
+      outline-offset: 2px;
+    }
+    .gsi-material-button.loading {
+      opacity: 0.65;
+      pointer-events: none;
+    }
+    .gsi-material-button .gsi-material-button-content-wrapper {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      height: 100%;
+      justify-content: center;
+      gap: 12px;
+      position: relative;
+      width: 100%;
+    }
+    .gsi-material-button .gsi-material-button-icon {
+      height: 20px;
+      min-width: 20px;
+      width: 20px;
+    }
+    .gsi-material-button .gsi-material-button-contents {
+      font-weight: 500;
+    }
+
+    .btn-sheet-view {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 14px;
+      background-color: #0f9d58;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      margin-top: 10px;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+    .btn-sheet-view:hover {
+      background-color: #0b8043;
+      transform: translateY(-1px);
+      color: #ffffff;
+    }
+
+    .btn-text-danger {
+      background: none;
+      border: none;
+      color: #dc2626;
+      font-size: 0.8rem;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 6px 0 0 0;
+      margin: 0 auto;
+      display: block;
+    }
+
+    /* Modal Dialogs */
+    .custom-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(10, 24, 20, 0.72);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+    .custom-modal-backdrop.is-active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .custom-modal {
+      background-color: var(--color-white);
+      border-radius: var(--radius-lg);
+      max-width: 520px;
+      width: 100%;
+      padding: 32px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--color-neutral-200);
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .custom-modal-backdrop.is-active .custom-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background-color: rgba(24, 74, 59, 0.1);
+      color: var(--brand-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .modal-header-icon.success-icon {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    .modal-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--brand-dark);
+      margin-bottom: 8px;
+    }
+
+    .modal-description {
+      font-size: 0.92rem;
+      color: var(--color-neutral-600);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .confirm-summary-box {
+      background-color: var(--color-surface);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-neutral-200);
+      padding: 16px 18px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .confirm-summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      color: var(--color-neutral-700);
+    }
+    .confirm-summary-row.highlight {
+      margin-top: 6px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--color-neutral-300);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--brand-primary);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+    @media (max-width: 480px) {
+      .modal-actions {
+        flex-direction: column-reverse;
+      }
+    }
+
     /* Accessibility: Respect Reduced Motion Preference */
     @media (prefers-reduced-motion: reduce) {
       html {
@@ -2015,12 +2495,24 @@
           <li><a href="/service-areas" class="nav-link" data-section="service-areas">Service Areas</a></li>
           <li><a href="/testimonials" class="nav-link" data-section="testimonials">Reviews</a></li>
           <li><a href="/faq" class="nav-link" data-section="faq">FAQ</a></li>
+          <li><a href="/booking" class="nav-link" data-section="booking" style="color: var(--brand-secondary); font-weight: 700;">Book Online</a></li>
           <li><a href="/contact" class="nav-link" data-section="contact">Contact</a></li>
         </ul>
       </nav>
 
       <!-- Header Action Items -->
       <div class="header-actions">
+        <!-- Book Online Header Action Button -->
+        <a href="/booking" class="btn btn-secondary btn-sm header-book-btn" data-section="booking" aria-label="Book eco cleaning online">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          Book Online
+        </a>
+
         <!-- Call Now Action Button -->
         <a href="tel:+16045550189" class="btn btn-primary btn-sm header-phone-btn" aria-label="Call +1 (604) 555-0189 for instant quote">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -2066,10 +2558,20 @@
       <li class="mobile-nav-item"><a href="/service-areas" class="mobile-link" data-section="service-areas">Service Areas</a></li>
       <li class="mobile-nav-item"><a href="/testimonials" class="mobile-link" data-section="testimonials">Client Reviews</a></li>
       <li class="mobile-nav-item"><a href="/faq" class="mobile-link" data-section="faq">Frequently Asked Questions</a></li>
+      <li class="mobile-nav-item"><a href="/booking" class="mobile-link" data-section="booking" style="color: var(--brand-secondary); font-weight: 700;">Book Online & Estimate</a></li>
       <li class="mobile-nav-item"><a href="/contact" class="mobile-link" data-section="contact">Contact Information</a></li>
     </ul>
 
     <div class="mobile-nav-cta">
+      <a href="/booking" class="btn btn-secondary" data-section="booking" style="width: 100%; justify-content: center;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        Book Online
+      </a>
       <a href="tel:+16045550189" class="btn btn-primary">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
@@ -2111,18 +2613,20 @@
             </p>
 
             <div class="hero-actions reveal">
-              <a href="tel:+16045550189" class="btn btn-secondary" aria-label="Call for a Free Quote at +1 (604) 555-0189">
+              <a href="/booking" class="btn btn-secondary" data-section="booking" aria-label="Book online and get an instant estimate">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                Book Online & Estimate
+              </a>
+              <a href="tel:+16045550189" class="btn btn-outline" aria-label="Call for a Free Quote at +1 (604) 555-0189" style="background-color: rgba(255, 255, 255, 0.1); color: var(--color-white); border-color: rgba(255, 255, 255, 0.4);">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
                 </svg>
-                Call for a Free Quote
-              </a>
-              <a href="mailto:quotes@laurentianecoclean.ca" class="btn btn-outline" aria-label="Email Us for a quote at quotes@laurentianecoclean.ca">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                  <polyline points="22,6 12,13 2,6"/>
-                </svg>
-                Email Us
+                Call for Quote
               </a>
             </div>
 
@@ -2845,7 +3349,259 @@
     </section>
 
     <!-- =======================================================================
-         10. CONTACT SECTION
+         10. ONLINE BOOKING SECTION (INTEGRATED WITH GOOGLE SHEETS)
+         ======================================================================= -->
+    <section class="section-padding booking-section" id="booking" aria-labelledby="booking-heading">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-eyebrow">Online Reservation</span>
+          <h2 id="booking-heading" class="section-title">Book Your Eco-Friendly Clean</h2>
+          <p class="section-subtitle">
+            Schedule your cleaning in under 60 seconds with transparent pricing. Every reservation is automatically saved and synchronized with our official Google Sheets dispatch system.
+          </p>
+        </header>
+
+        <div class="booking-layout">
+          <!-- Left Column: Interactive Multi-Step Form -->
+          <div class="booking-form-card reveal">
+            <form id="bookingForm" novalidate>
+              <!-- Step 1: Cleaning Details -->
+              <div class="booking-step">
+                <div class="booking-step-header">
+                  <span class="booking-step-num" aria-hidden="true">1</span>
+                  <div>
+                    <h3 class="booking-step-title">Select Service & Property</h3>
+                    <p class="form-hint">Choose your cleaning package and home or office footprint</p>
+                  </div>
+                </div>
+
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label for="bookingService" class="form-label">Service Type</label>
+                    <select id="bookingService" class="form-control" required>
+                      <option value="residential">Residential Home Cleaning</option>
+                      <option value="deep-clean">Deep Sanitization Clean (+40%)</option>
+                      <option value="move-in-out">Move-In / Move-Out Clean (+50%)</option>
+                      <option value="commercial">Commercial Office Care (+25%)</option>
+                      <option value="post-reno">Post-Renovation Clean (+60%)</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="bookingPropertySize" class="form-label">Property Size</label>
+                    <select id="bookingPropertySize" class="form-control" required>
+                      <option value="1-bed">Studio / 1 Bedroom (&lt; 800 sq ft)</option>
+                      <option value="2-bed" selected>2 Bedrooms (800 - 1,400 sq ft)</option>
+                      <option value="3-bed">3 Bedrooms (1,400 - 2,200 sq ft)</option>
+                      <option value="4-bed-plus">4+ Bedrooms (2,200+ sq ft)</option>
+                      <option value="commercial-small">Office / Retail (&lt; 2,500 sq ft)</option>
+                      <option value="commercial-large">Commercial Complex (2,500+ sq ft)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 14px;">
+                  <label for="bookingFrequency" class="form-label">Service Frequency</label>
+                  <select id="bookingFrequency" class="form-control" required>
+                    <option value="one-time">One-Time Clean (Standard Rate)</option>
+                    <option value="weekly">Weekly Recurring Care (Save 15%)</option>
+                    <option value="bi-weekly" selected>Bi-Weekly Care (Save 10%) — Most Popular</option>
+                    <option value="monthly">Monthly Refresh (Save 5%)</option>
+                  </select>
+                  <span class="form-hint">Recurring cleans include free schedule flexibility and dedicated regular staff.</span>
+                </div>
+              </div>
+
+              <!-- Step 2: Date & Window -->
+              <div class="booking-step">
+                <div class="booking-step-header">
+                  <span class="booking-step-num" aria-hidden="true">2</span>
+                  <div>
+                    <h3 class="booking-step-title">Preferred Schedule</h3>
+                    <p class="form-hint">Pick your desired date and arrival window</p>
+                  </div>
+                </div>
+
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label for="bookingDate" class="form-label">Preferred Date</label>
+                    <input type="date" id="bookingDate" class="form-control" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="bookingTime" class="form-label">Arrival Window</label>
+                    <select id="bookingTime" class="form-control" required>
+                      <option value="Morning (8:00 AM - 12:00 PM)">Morning (8:00 AM &ndash; 12:00 PM)</option>
+                      <option value="Afternoon (12:00 PM - 4:00 PM)">Afternoon (12:00 PM &ndash; 4:00 PM)</option>
+                      <option value="Late Afternoon (4:00 PM - 7:00 PM)">Late Afternoon (4:00 PM &ndash; 7:00 PM)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3: Client & Location -->
+              <div class="booking-step">
+                <div class="booking-step-header">
+                  <span class="booking-step-num" aria-hidden="true">3</span>
+                  <div>
+                    <h3 class="booking-step-title">Your Details & Address</h3>
+                    <p class="form-hint">Where should our bonded cleaning specialists arrive?</p>
+                  </div>
+                </div>
+
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label for="bookingName" class="form-label">Full Name</label>
+                    <input type="text" id="bookingName" class="form-control" placeholder="e.g. Sarah Jenkins" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="bookingPhone" class="form-label">Phone Number</label>
+                    <input type="tel" id="bookingPhone" class="form-control" placeholder="+1 (604) 555-0199" required />
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 14px;">
+                  <label for="bookingEmail" class="form-label">Email Address</label>
+                  <input type="email" id="bookingEmail" class="form-control" placeholder="sarah.jenkins@example.ca" required />
+                </div>
+
+                <div class="form-grid-2" style="margin-top: 14px;">
+                  <div class="form-group">
+                    <label for="bookingAddress" class="form-label">Street Address & Suite</label>
+                    <input type="text" id="bookingAddress" class="form-control" placeholder="1288 West Georgia St, Apt 1402" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="bookingCity" class="form-label">City / Region</label>
+                    <select id="bookingCity" class="form-control" required>
+                      <option value="Vancouver">Vancouver</option>
+                      <option value="North Vancouver">North Vancouver</option>
+                      <option value="West Vancouver">West Vancouver</option>
+                      <option value="Burnaby">Burnaby</option>
+                      <option value="Richmond">Richmond</option>
+                      <option value="New Westminster">New Westminster</option>
+                      <option value="Coquitlam">Coquitlam</option>
+                      <option value="Surrey">Surrey</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 14px;">
+                  <label for="bookingNotes" class="form-label">
+                    <span>Special Eco Preferences & Notes</span>
+                    <span class="form-label-optional">Optional</span>
+                  </label>
+                  <textarea id="bookingNotes" class="form-control" rows="3" placeholder="e.g. Golden retriever at home, please use unscented hypoallergenic botanical spray, lockbox code is 4821"></textarea>
+                </div>
+              </div>
+
+              <!-- Submit Action Button -->
+              <div style="margin-top: 30px;">
+                <button type="submit" class="btn btn-secondary btn-block" id="bookingSubmitBtn" style="width: 100%; justify-content: center; font-size: 1.05rem; padding: 15px;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                  </svg>
+                  Confirm Reservation & Sync to Google Sheets
+                </button>
+                <p class="form-hint" style="text-align: center; margin-top: 10px;">
+                  🔒 100% Risk-Free. No credit card required upfront. You only pay after our clean meets your complete satisfaction.
+                </p>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right Column: Live Estimate & Google Sheets Sync Hub -->
+          <div class="booking-summary-col reveal">
+            <!-- Transparent Live Quote Card -->
+            <div class="quote-card">
+              <span class="quote-header-title">Estimated Investment</span>
+              <div class="quote-amount-wrap">
+                <span class="quote-amount" id="liveQuoteAmount">$176 CAD</span>
+                <span style="font-size: 0.9rem; color: var(--color-neutral-300);">/ visit</span>
+              </div>
+              <p class="quote-subtext">Transparent estimate tailored to your selections.</p>
+
+              <div class="quote-breakdown-box" id="liveQuoteBreakdown">
+                2 Bedrooms • Bi-Weekly Care (Save 10%)
+              </div>
+
+              <ul class="quote-features-list">
+                <li>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Eco-certified non-toxic botanical formulas</span>
+                </li>
+                <li>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Commercial HEPA 99.97% vacuum filtration</span>
+                </li>
+                <li>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>100% Bonded & insured Canadian staff</span>
+                </li>
+                <li>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>24-Hour 100% satisfaction guarantee</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Google Sheets Integration Sync Card -->
+            <div class="google-sync-card">
+              <h3 class="google-sync-title">
+                <!-- Google Sheets SVG Icon -->
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" fill="#0F9D58"/>
+                  <path d="M14 2V8H20" fill="#87CEAB"/>
+                  <rect x="7" y="11" width="10" height="2" rx="0.5" fill="#FFFFFF"/>
+                  <rect x="7" y="14" width="10" height="2" rx="0.5" fill="#FFFFFF"/>
+                  <rect x="7" y="17" width="10" height="2" rx="0.5" fill="#FFFFFF"/>
+                </svg>
+                Google Sheets Live Sync
+              </h3>
+
+              <div id="googleSheetsAuthStatus">
+                <div class="google-sync-indicator disconnected">
+                  <span class="status-neutral-dot"></span>
+                  <div>
+                    <strong>Google Sheets Sync:</strong> Ready to connect
+                    <div class="sheet-sync-subtext">Reservations are automatically appended to your dedicated Google Sheet.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Official Google Sign In Button -->
+              <button type="button" class="gsi-material-button" id="sheetsSignInBtn" aria-label="Sign in with Google to connect Sheets">
+                <div class="gsi-material-button-content-wrapper">
+                  <div class="gsi-material-button-icon">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" style="display: block;">
+                      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                      <path fill="none" d="M0 0h48v48H0z"></path>
+                    </svg>
+                  </div>
+                  <span class="gsi-material-button-contents">Sign in with Google</span>
+                </div>
+              </button>
+
+              <!-- View Sheet Link -->
+              <a href="#" target="_blank" rel="noopener noreferrer" class="btn-sheet-view" id="viewGoogleSheetLink" style="display: none;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Open Customer Bookings Sheet
+              </a>
+
+              <button type="button" class="btn-text-danger" id="sheetsSignOutBtn" style="display: none;">Disconnect Google Account</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         11. CONTACT SECTION
          ======================================================================= -->
     <section class="section-padding contact-section" id="contact" aria-labelledby="contact-heading">
       <div class="container">
@@ -3318,5 +4074,70 @@
 
     })();
   </script>
+  <!-- =========================================================================
+       MODAL: MANDATORY BOOKING CONFIRMATION DIALOG (WORKSPACE PERMISSION SAFEGUARD)
+       ========================================================================= -->
+  <div class="custom-modal-backdrop" id="bookingConfirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+    <div class="custom-modal">
+      <div class="modal-header-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+      </div>
+
+      <h3 class="modal-title" id="confirmModalTitle">Confirm Booking & Google Sheets Sync</h3>
+      <p class="modal-description">
+        Please review your cleaning details. Upon confirmation, a new booking entry will be created and written to your Google Sheets dispatch spreadsheet.
+      </p>
+
+      <div class="confirm-summary-box" id="confirmModalSummary">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" id="confirmBookingCancelBtn">Cancel</button>
+        <button type="button" class="btn btn-secondary" id="confirmBookingProceedBtn">Confirm & Save to Google Sheets</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: BOOKING SUCCESS & DIRECT GOOGLE SHEET ACCESS
+       ========================================================================= -->
+  <div class="custom-modal-backdrop" id="bookingSuccessModal" role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
+    <div class="custom-modal" style="text-align: center;">
+      <div class="modal-header-icon success-icon" style="margin: 0 auto 16px auto;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+
+      <h3 class="modal-title" id="successModalTitle">Reservation Confirmed!</h3>
+      <p class="modal-description">
+        Your booking has been successfully dispatched and saved to your Google Sheets spreadsheet.
+      </p>
+
+      <div style="background-color: var(--color-surface); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--color-neutral-200); margin-bottom: 24px;">
+        <span style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-neutral-500); font-weight: 700; letter-spacing: 0.05em;">Booking Reference ID</span>
+        <div id="successBookingId" style="font-size: 1.4rem; font-weight: 800; color: var(--brand-primary); margin-top: 4px;">LEC-2026-0000</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <a id="successSheetLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="justify-content: center; width: 100%; background-color: #0F9D58; border-color: #0F9D58;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Open Live in Google Sheets
+        </a>
+        <button type="button" class="btn btn-outline" id="closeSuccessModalBtn" style="justify-content: center; width: 100%;">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODULE: FIREBASE AUTH & GOOGLE SHEETS SYNC
+       ========================================================================= -->
+  <script type="module" src="/src/booking-sheets.ts"></script>
 </body>
 </html>

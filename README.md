@@ -23,6 +23,12 @@ Our mission combines non-toxic green chemistry, HEPA multi-stage filtration, and
   - Accessible mobile hamburger navigation drawer with keyboard trap and ESC dismiss support.
   - Sticky header with instant "Call Now" CTA.
   - Fixed WhatsApp Floating Action Button (FAB) at the bottom-right for instant inquiries.
+- **Online Booking & Real-Time Google Sheets Integration**:
+  - Multi-step online reservation system with real-time transparent price calculation.
+  - Integration with the Google Sheets API (`https://www.googleapis.com/auth/spreadsheets`).
+  - Automatic creation and real-time row synchronization of customer bookings directly into a dedicated Google Spreadsheet (`Laurentian EcoClean Co. — Customer Bookings`).
+  - Official "Sign in with Google" button and live connection status hub.
+  - Workspace-compliant confirmation safeguards prior to dispatching and recording records.
 - **Full Service Suite Showcase**:
   - Residential Regular Cleaning
   - Deep Cleaning & Seasonal Detail
