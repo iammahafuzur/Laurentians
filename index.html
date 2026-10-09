@@ -2169,8 +2169,8 @@
       flex-shrink: 0;
     }
 
-    /* Google Sheets Sync Widget */
-    .google-sync-card {
+    /* Booking Service Guarantees Card */
+    .booking-guarantee-card {
       background-color: var(--color-white);
       border-radius: var(--radius-lg);
       padding: 24px;
@@ -2178,161 +2178,40 @@
       box-shadow: 0 4px 16px rgba(20, 34, 29, 0.05);
     }
 
-    .google-sync-title {
+    .guarantee-title {
       font-size: 1rem;
       font-weight: 700;
       color: var(--brand-dark);
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .guarantee-title svg {
+      color: var(--brand-primary);
+      flex-shrink: 0;
     }
 
-    .google-sync-indicator {
+    .guarantee-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 0.875rem;
+      color: var(--color-neutral-700);
+      line-height: 1.45;
+    }
+
+    .guarantee-list li {
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      padding: 12px 14px;
-      border-radius: var(--radius-sm);
-      font-size: 0.875rem;
-      line-height: 1.4;
-      margin-bottom: 14px;
-    }
-    .google-sync-indicator.connected {
-      background-color: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      color: #166534;
-    }
-    .google-sync-indicator.disconnected {
-      background-color: #f8fafc;
-      border: 1px solid #e2e8f0;
-      color: #475569;
     }
 
-    .status-pulse-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: #22c55e;
-      margin-top: 5px;
+    .guarantee-list svg {
+      color: var(--brand-primary);
       flex-shrink: 0;
-      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
-      animation: pulseDot 2s infinite;
-    }
-
-    @keyframes pulseDot {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.2); opacity: 0.8; }
-    }
-
-    .status-neutral-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: #94a3b8;
-      margin-top: 5px;
-      flex-shrink: 0;
-    }
-
-    .sheet-sync-subtext {
-      font-size: 0.78rem;
-      color: var(--color-neutral-600);
-      margin-top: 2px;
-    }
-
-    /* Official Sign in with Google Button Styling (Workspace Skill specification) */
-    .gsi-material-button {
-      user-select: none;
-      background-color: #FFFFFF;
-      background-image: none;
-      border: 1px solid #747775;
-      border-radius: 6px;
-      box-sizing: border-box;
-      color: #1f1f1f;
-      cursor: pointer;
-      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      height: 42px;
-      letter-spacing: 0.25px;
-      outline: none;
-      overflow: hidden;
-      padding: 0 16px;
-      position: relative;
-      text-align: center;
-      vertical-align: middle;
-      white-space: nowrap;
-      width: 100%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
-    }
-    .gsi-material-button:hover {
-      box-shadow: 0 1px 3px 0 rgba(60, 64, 67, .30), 0 1px 4px 1px rgba(60, 64, 67, .15);
-      background-color: #f8fafd;
-      border-color: #5f6368;
-    }
-    .gsi-material-button:focus-visible {
-      outline: 2px solid #1a73e8;
-      outline-offset: 2px;
-    }
-    .gsi-material-button.loading {
-      opacity: 0.65;
-      pointer-events: none;
-    }
-    .gsi-material-button .gsi-material-button-content-wrapper {
-      align-items: center;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      height: 100%;
-      justify-content: center;
-      gap: 12px;
-      position: relative;
-      width: 100%;
-    }
-    .gsi-material-button .gsi-material-button-icon {
-      height: 20px;
-      min-width: 20px;
-      width: 20px;
-    }
-    .gsi-material-button .gsi-material-button-contents {
-      font-weight: 500;
-    }
-
-    .btn-sheet-view {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 10px 14px;
-      background-color: #0f9d58;
-      color: #ffffff;
-      font-weight: 600;
-      font-size: 0.875rem;
-      border-radius: var(--radius-sm);
-      text-decoration: none;
-      margin-top: 10px;
-      transition: background-color 0.2s ease, transform 0.2s ease;
-    }
-    .btn-sheet-view:hover {
-      background-color: #0b8043;
-      transform: translateY(-1px);
-      color: #ffffff;
-    }
-
-    .btn-text-danger {
-      background: none;
-      border: none;
-      color: #dc2626;
-      font-size: 0.8rem;
-      cursor: pointer;
-      text-decoration: underline;
-      padding: 6px 0 0 0;
-      margin: 0 auto;
-      display: block;
+      margin-top: 3px;
     }
 
     /* Modal Dialogs */
@@ -3349,7 +3228,7 @@
     </section>
 
     <!-- =======================================================================
-         10. ONLINE BOOKING SECTION (INTEGRATED WITH GOOGLE SHEETS)
+         10. ONLINE BOOKING SECTION
          ======================================================================= -->
     <section class="section-padding booking-section" id="booking" aria-labelledby="booking-heading">
       <div class="container">
@@ -3357,7 +3236,7 @@
           <span class="section-eyebrow">Online Reservation</span>
           <h2 id="booking-heading" class="section-title">Book Your Eco-Friendly Clean</h2>
           <p class="section-subtitle">
-            Schedule your cleaning in under 60 seconds with transparent pricing. Every reservation is automatically saved and synchronized with our official Google Sheets dispatch system.
+            Schedule your cleaning in under 60 seconds with transparent pricing. Our dedicated Canadian dispatch team will immediately confirm your reservation.
           </p>
         </header>
 
@@ -3503,7 +3382,7 @@
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                     <polyline points="22 4 12 14.01 9 11.01"/>
                   </svg>
-                  Confirm Reservation & Sync to Google Sheets
+                  Confirm Online Reservation
                 </button>
                 <p class="form-hint" style="text-align: center; margin-top: 10px;">
                   🔒 100% Risk-Free. No credit card required upfront. You only pay after our clean meets your complete satisfaction.
@@ -3512,7 +3391,7 @@
             </form>
           </div>
 
-          <!-- Right Column: Live Estimate & Google Sheets Sync Hub -->
+          <!-- Right Column: Live Estimate & Service Guarantees -->
           <div class="booking-summary-col reveal">
             <!-- Transparent Live Quote Card -->
             <div class="quote-card">
@@ -3547,53 +3426,26 @@
               </ul>
             </div>
 
-            <!-- Google Sheets Integration Sync Card -->
-            <div class="google-sync-card">
-              <h3 class="google-sync-title">
-                <!-- Google Sheets SVG Icon -->
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" fill="#0F9D58"/>
-                  <path d="M14 2V8H20" fill="#87CEAB"/>
-                  <rect x="7" y="11" width="10" height="2" rx="0.5" fill="#FFFFFF"/>
-                  <rect x="7" y="14" width="10" height="2" rx="0.5" fill="#FFFFFF"/>
-                  <rect x="7" y="17" width="10" height="2" rx="0.5" fill="#FFFFFF"/>
-                </svg>
-                Google Sheets Live Sync
+            <!-- Booking Service Guarantees Card -->
+            <div class="booking-guarantee-card">
+              <h3 class="guarantee-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                The Laurentian Promise
               </h3>
-
-              <div id="googleSheetsAuthStatus">
-                <div class="google-sync-indicator disconnected">
-                  <span class="status-neutral-dot"></span>
-                  <div>
-                    <strong>Google Sheets Sync:</strong> Ready to connect
-                    <div class="sheet-sync-subtext">Reservations are automatically appended to your dedicated Google Sheet.</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Official Google Sign In Button -->
-              <button type="button" class="gsi-material-button" id="sheetsSignInBtn" aria-label="Sign in with Google to connect Sheets">
-                <div class="gsi-material-button-content-wrapper">
-                  <div class="gsi-material-button-icon">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" style="display: block;">
-                      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-                      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-                      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-                      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-                      <path fill="none" d="M0 0h48v48H0z"></path>
-                    </svg>
-                  </div>
-                  <span class="gsi-material-button-contents">Sign in with Google</span>
-                </div>
-              </button>
-
-              <!-- View Sheet Link -->
-              <a href="#" target="_blank" rel="noopener noreferrer" class="btn-sheet-view" id="viewGoogleSheetLink" style="display: none;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                Open Customer Bookings Sheet
-              </a>
-
-              <button type="button" class="btn-text-danger" id="sheetsSignOutBtn" style="display: none;">Disconnect Google Account</button>
+              <ul class="guarantee-list">
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>Zero Upfront Deposit:</strong> Pay securely only after your cleaning is completed and inspected.</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>Free 24hr Rescheduling:</strong> Flexible date changes with zero penalty fees.</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>100% Bonded Specialists:</strong> Rigorously vetted & background-checked Canadian staff.</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -4075,7 +3927,7 @@
     })();
   </script>
   <!-- =========================================================================
-       MODAL: MANDATORY BOOKING CONFIRMATION DIALOG (WORKSPACE PERMISSION SAFEGUARD)
+       MODAL: MANDATORY BOOKING CONFIRMATION DIALOG
        ========================================================================= -->
   <div class="custom-modal-backdrop" id="bookingConfirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
     <div class="custom-modal">
@@ -4088,9 +3940,9 @@
         </svg>
       </div>
 
-      <h3 class="modal-title" id="confirmModalTitle">Confirm Booking & Google Sheets Sync</h3>
+      <h3 class="modal-title" id="confirmModalTitle">Confirm Online Reservation</h3>
       <p class="modal-description">
-        Please review your cleaning details. Upon confirmation, a new booking entry will be created and written to your Google Sheets dispatch spreadsheet.
+        Please review your cleaning reservation details below. Our Canadian cleaning specialists will schedule your service and contact you shortly.
       </p>
 
       <div class="confirm-summary-box" id="confirmModalSummary">
@@ -4098,14 +3950,14 @@
       </div>
 
       <div class="modal-actions">
-        <button type="button" class="btn btn-outline" id="confirmBookingCancelBtn">Cancel</button>
-        <button type="button" class="btn btn-secondary" id="confirmBookingProceedBtn">Confirm & Save to Google Sheets</button>
+        <button type="button" class="btn btn-outline" id="confirmBookingCancelBtn">Review Details</button>
+        <button type="button" class="btn btn-secondary" id="confirmBookingProceedBtn">Confirm Reservation</button>
       </div>
     </div>
   </div>
 
   <!-- =========================================================================
-       MODAL: BOOKING SUCCESS & DIRECT GOOGLE SHEET ACCESS
+       MODAL: BOOKING SUCCESS
        ========================================================================= -->
   <div class="custom-modal-backdrop" id="bookingSuccessModal" role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
     <div class="custom-modal" style="text-align: center;">
@@ -4117,7 +3969,7 @@
 
       <h3 class="modal-title" id="successModalTitle">Reservation Confirmed!</h3>
       <p class="modal-description">
-        Your booking has been successfully dispatched and saved to your Google Sheets spreadsheet.
+        Your eco-cleaning reservation has been received. Our Vancouver dispatch team will reach out promptly to confirm final arrival instructions.
       </p>
 
       <div style="background-color: var(--color-surface); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--color-neutral-200); margin-bottom: 24px;">
@@ -4125,19 +3977,15 @@
         <div id="successBookingId" style="font-size: 1.4rem; font-weight: 800; color: var(--brand-primary); margin-top: 4px;">LEC-2026-0000</div>
       </div>
 
-      <div style="display: flex; flex-direction: column; gap: 10px;">
-        <a id="successSheetLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="justify-content: center; width: 100%; background-color: #0F9D58; border-color: #0F9D58;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Open Live in Google Sheets
-        </a>
-        <button type="button" class="btn btn-outline" id="closeSuccessModalBtn" style="justify-content: center; width: 100%;">Done</button>
+      <div>
+        <button type="button" class="btn btn-primary" id="closeSuccessModalBtn" style="justify-content: center; width: 100%;">Done</button>
       </div>
     </div>
   </div>
 
   <!-- =========================================================================
-       MODULE: FIREBASE AUTH & GOOGLE SHEETS SYNC
+       MODULE: ONLINE BOOKING SYSTEM
        ========================================================================= -->
-  <script type="module" src="/src/booking-sheets.ts"></script>
+  <script type="module" src="/src/booking.ts"></script>
 </body>
 </html>
