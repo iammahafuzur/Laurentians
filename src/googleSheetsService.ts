@@ -288,3 +288,57 @@ export const appendBookingToGoogleSheet = async (
     };
   }
 };
+
+/**
+ * Batch sync all unsynced appointments stored in localStorage to Google Sheets
+ */
+export const syncAllPendingBookings = async (
+  token: string
+): Promise<{ success: boolean; syncedCount: number; spreadsheetUrl: string; message: string }> => {
+  try {
+    const raw = localStorage.getItem('laurentian_bookings');
+    if (!raw) {
+      return { success: true, syncedCount: 0, spreadsheetUrl: '', message: 'No bookings found.' };
+    }
+
+    const bookings: SavedBookingRecord[] = JSON.parse(raw);
+    const pendingIndices = bookings
+      .map((b, idx) => ({ b, idx }))
+      .filter(({ b }) => !b.syncedToSheets);
+
+    if (pendingIndices.length === 0) {
+      const currentSheetId = getSavedSpreadsheetId();
+      const currentUrl = currentSheetId ? `https://docs.google.com/spreadsheets/d/${currentSheetId}/edit` : '';
+      return { success: true, syncedCount: 0, spreadsheetUrl: currentUrl, message: 'All bookings already synced.' };
+    }
+
+    let syncedCount = 0;
+    let lastUrl = '';
+
+    for (const { b, idx } of pendingIndices) {
+      const res = await appendBookingToGoogleSheet(b);
+      if (res.success) {
+        bookings[idx].syncedToSheets = true;
+        bookings[idx].sheetsUrl = res.spreadsheetUrl;
+        lastUrl = res.spreadsheetUrl;
+        syncedCount++;
+      }
+    }
+
+    localStorage.setItem('laurentian_bookings', JSON.stringify(bookings));
+    return {
+      success: true,
+      syncedCount,
+      spreadsheetUrl: lastUrl,
+      message: `Successfully synced ${syncedCount} booking(s) to Google Sheets.`
+    };
+  } catch (err: any) {
+    console.error('Batch sync error:', err);
+    return {
+      success: false,
+      syncedCount: 0,
+      spreadsheetUrl: '',
+      message: err?.message || 'Failed to sync pending bookings.'
+    };
+  }
+};

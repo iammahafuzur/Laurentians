@@ -6,6 +6,7 @@ import {
 } from './googleAuth';
 import {
   appendBookingToGoogleSheet,
+  syncAllPendingBookings,
   getSavedSpreadsheetId,
   saveSpreadsheetId
 } from './googleSheetsService';
@@ -102,12 +103,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeSuccessBtn = document.getElementById('closeSuccessModalBtn');
 
   // Sheets UI elements
-  const sheetsSyncDot = document.getElementById('sheetsSyncDot');
-  const sheetsStatusText = document.getElementById('sheetsStatusText');
-  const sheetsConnectBtn = document.getElementById('sheetsConnectBtn') as HTMLButtonElement | null;
-  const sheetsOpenLink = document.getElementById('sheetsOpenLink') as HTMLAnchorElement | null;
-  const sheetsDisconnectBtn = document.getElementById('sheetsDisconnectBtn') as HTMLButtonElement | null;
+  const successSheetNotice = document.getElementById('successSheetNotice');
   const successSheetNoticeText = document.getElementById('successSheetNoticeText');
+  const successGoogleSignInBtn = document.getElementById('successGoogleSignInBtn') as HTMLButtonElement | null;
+
+  // Admin Modal elements
+  const adminModal = document.getElementById('adminSheetsModal');
+  const footerAdminSheetsBtn = document.getElementById('footerAdminSheetsBtn');
+  const closeAdminModalBtn = document.getElementById('closeAdminModalBtn');
+  const adminModalDot = document.getElementById('adminModalDot');
+  const adminModalAccountText = document.getElementById('adminModalAccountText');
+  const adminModalSignInBtn = document.getElementById('adminModalSignInBtn') as HTMLButtonElement | null;
+  const adminModalSignOutBtn = document.getElementById('adminModalSignOutBtn') as HTMLButtonElement | null;
+  const adminModalOpenSheetLink = document.getElementById('adminModalOpenSheetLink') as HTMLAnchorElement | null;
+  const adminModalBatchSyncBtn = document.getElementById('adminModalBatchSyncBtn') as HTMLButtonElement | null;
+  const adminModalBatchSyncText = document.getElementById('adminModalBatchSyncText');
+  const adminModalBookingsCount = document.getElementById('adminModalBookingsCount');
+  const adminModalTableBody = document.getElementById('adminModalTableBody');
 
   // Input elements
   const serviceSelect = document.getElementById('bookingService') as HTMLSelectElement | null;
@@ -148,133 +160,198 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   updatePriceQuote();
 
-  // Support ?admin=true or ?admin=1 or hash #admin or Ctrl+Shift+A for Admin view
-  const urlParams = new URLSearchParams(window.location.search);
-  const isAdminParam =
-    urlParams.get('admin') === 'true' ||
-    urlParams.get('admin') === '1' ||
-    window.location.hash === '#admin';
+  // Current admin user state
+  let currentAdminUser: User | null = null;
+  let currentAdminToken: string | null = getAccessToken();
 
-  const adminPanel = document.getElementById('adminSheetsPanel');
+  // Helper to refresh Admin Modal UI
+  const updateAdminModalUI = () => {
+    const sheetId = getSavedSpreadsheetId();
+    const isConnected = !!(currentAdminUser && currentAdminToken);
 
-  const setAdminVisibility = (show: boolean) => {
-    if (!adminPanel) return;
-    if (show) {
-      document.body.classList.add('show-admin-sheets');
-      adminPanel.removeAttribute('hidden');
-      adminPanel.removeAttribute('aria-hidden');
-      adminPanel.style.setProperty('display', 'inline-flex', 'important');
-    } else {
-      document.body.classList.remove('show-admin-sheets');
-      adminPanel.setAttribute('hidden', 'true');
-      adminPanel.setAttribute('aria-hidden', 'true');
-      adminPanel.style.setProperty('display', 'none', 'important');
+    if (adminModalDot) {
+      if (isConnected) {
+        adminModalDot.classList.add('connected');
+      } else {
+        adminModalDot.classList.remove('connected');
+      }
     }
-  };
 
-  // Initially hidden from frontend visitors
-  setAdminVisibility(isAdminParam);
-
-  // Keyboard shortcut Ctrl+Shift+A or Cmd+Shift+A to toggle admin view when needed
-  window.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'a') {
-      const isVisible = document.body.classList.contains('show-admin-sheets');
-      setAdminVisibility(!isVisible);
+    if (adminModalAccountText) {
+      if (isConnected) {
+        adminModalAccountText.textContent = `Connected as ${currentAdminUser?.displayName || currentAdminUser?.email || 'Admin'}`;
+      } else {
+        adminModalAccountText.textContent = sheetId ? 'Configured (Sign in to sync)' : 'Not Connected';
+      }
     }
-  });
 
-  // Helper to update Sheets Admin state
-  const updateSheetsUI = (user: User | null, token: string | null) => {
-    const currentSheetId = getSavedSpreadsheetId();
-    if (user && token) {
-      if (sheetsSyncDot) {
-        sheetsSyncDot.classList.add('connected');
+    if (adminModalSignInBtn) {
+      adminModalSignInBtn.style.display = isConnected ? 'none' : 'inline-flex';
+    }
+    if (adminModalSignOutBtn) {
+      adminModalSignOutBtn.style.display = isConnected ? 'inline-flex' : 'none';
+    }
+
+    if (adminModalOpenSheetLink) {
+      if (sheetId) {
+        adminModalOpenSheetLink.style.display = 'inline-flex';
+        adminModalOpenSheetLink.href = `https://docs.google.com/spreadsheets/d/${sheetId}/edit`;
+      } else {
+        adminModalOpenSheetLink.style.display = 'none';
       }
-      if (sheetsStatusText) {
-        sheetsStatusText.textContent = `Connected as ${user.displayName || user.email || 'Admin'}`;
+    }
+
+    // Refresh Bookings List in Admin Modal
+    try {
+      const stored = localStorage.getItem('laurentian_bookings');
+      const bookings: SavedBookingRecord[] = stored ? JSON.parse(stored) : [];
+      const pendingCount = bookings.filter(b => !b.syncedToSheets).length;
+
+      if (adminModalBookingsCount) {
+        adminModalBookingsCount.textContent = `${bookings.length} total (${pendingCount} pending sync)`;
       }
-      if (sheetsConnectBtn) {
-        sheetsConnectBtn.style.display = 'none';
+
+      if (adminModalBatchSyncText) {
+        adminModalBatchSyncText.textContent = pendingCount > 0
+          ? `Sync ${pendingCount} Pending to Sheets`
+          : 'All Bookings Synced';
       }
-      if (sheetsOpenLink) {
-        sheetsOpenLink.style.display = 'inline-flex';
-        sheetsOpenLink.href = currentSheetId
-          ? `https://docs.google.com/spreadsheets/d/${currentSheetId}/edit`
-          : 'https://docs.google.com/spreadsheets/u/0/';
-      }
-      if (sheetsDisconnectBtn) {
-        sheetsDisconnectBtn.style.display = 'inline-flex';
-      }
-    } else {
-      if (sheetsSyncDot) {
-        sheetsSyncDot.classList.remove('connected');
-      }
-      if (sheetsStatusText) {
-        sheetsStatusText.textContent = currentSheetId
-          ? 'Sheet Configured (Sign in to auto-sync)'
-          : 'Admin Sheets Standby';
-      }
-      if (sheetsConnectBtn) {
-        sheetsConnectBtn.style.display = 'inline-flex';
-      }
-      if (sheetsOpenLink) {
-        if (currentSheetId) {
-          sheetsOpenLink.style.display = 'inline-flex';
-          sheetsOpenLink.href = `https://docs.google.com/spreadsheets/d/${currentSheetId}/edit`;
+
+      if (adminModalTableBody) {
+        if (bookings.length === 0) {
+          adminModalTableBody.innerHTML = `
+            <tr>
+              <td colspan="5" style="text-align: center; color: var(--color-neutral-500); padding: 24px;">No customer appointments registered yet.</td>
+            </tr>
+          `;
         } else {
-          sheetsOpenLink.style.display = 'none';
+          adminModalTableBody.innerHTML = bookings.slice(0, 15).map(b => {
+            const syncBadge = b.syncedToSheets
+              ? `<span style="color: #107c41; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">🟢 Synced</span>`
+              : `<span style="color: #b45309; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">🟡 Pending</span>`;
+
+            return `
+              <tr>
+                <td><strong>${b.bookingId}</strong></td>
+                <td>${b.clientName}<br><span style="color: var(--color-neutral-500); font-size: 0.75rem;">${b.clientPhone}</span></td>
+                <td>${b.service}<br><span style="color: var(--color-neutral-500); font-size: 0.75rem;">${b.preferredDate}</span></td>
+                <td><strong>$${b.estimatedPrice} CAD</strong></td>
+                <td>${syncBadge}</td>
+              </tr>
+            `;
+          }).join('');
         }
       }
-      if (sheetsDisconnectBtn) {
-        sheetsDisconnectBtn.style.display = 'none';
-      }
+    } catch (err) {
+      console.warn('Error rendering admin table:', err);
     }
   };
 
   // Auth Listener
   initAuth(
     (user, token) => {
-      updateSheetsUI(user, token);
+      currentAdminUser = user;
+      currentAdminToken = token;
+      updateAdminModalUI();
+      // Auto-sync any pending bookings upon connecting
+      syncAllPendingBookings(token).catch(console.warn);
     },
     () => {
-      updateSheetsUI(null, null);
+      currentAdminUser = null;
+      currentAdminToken = null;
+      updateAdminModalUI();
     }
   );
 
-  // Connect Google Sheets Button click handler
-  sheetsConnectBtn?.addEventListener('click', async () => {
+  // Admin Modal Toggles
+  const openAdminModal = () => {
+    updateAdminModalUI();
+    if (adminModal) {
+      adminModal.classList.add('is-active');
+    }
+  };
+
+  const closeAdminModal = () => {
+    if (adminModal) {
+      adminModal.classList.remove('is-active');
+    }
+  };
+
+  footerAdminSheetsBtn?.addEventListener('click', openAdminModal);
+  closeAdminModalBtn?.addEventListener('click', closeAdminModal);
+
+  // Keyboard shortcut Ctrl+Shift+A or Cmd+Shift+A to open Admin Modal
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'a') {
+      openAdminModal();
+    }
+  });
+
+  // Admin Modal Sign In Button
+  adminModalSignInBtn?.addEventListener('click', async () => {
     try {
-      if (sheetsConnectBtn) {
-        sheetsConnectBtn.textContent = 'Connecting...';
+      if (adminModalSignInBtn) {
+        adminModalSignInBtn.style.opacity = '0.6';
       }
       const res = await googleSignIn();
       if (res) {
-        updateSheetsUI(res.user, res.accessToken);
+        currentAdminUser = res.user;
+        currentAdminToken = res.accessToken;
+        const syncRes = await syncAllPendingBookings(res.accessToken);
+        updateAdminModalUI();
+        if (syncRes.syncedCount > 0) {
+          alert(`Google Sheets Connected! Synced ${syncRes.syncedCount} appointment(s).`);
+        }
       }
     } catch (err: any) {
-      console.error('Failed to sign in for Google Sheets sync:', err);
-      alert('Could not authenticate Google Sheets account: ' + (err.message || 'Unknown error'));
+      console.error('Failed to sign in to Google Sheets:', err);
+      alert('Could not authenticate Google account: ' + (err.message || 'Please try again.'));
     } finally {
-      if (sheetsConnectBtn) {
-        sheetsConnectBtn.innerHTML = `
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
-            <polyline points="10 17 15 12 10 7"/>
-            <line x1="15" y1="12" x2="3" y2="12"/>
-          </svg>
-          <span>Connect Admin Account</span>
-        `;
+      if (adminModalSignInBtn) {
+        adminModalSignInBtn.style.opacity = '1';
       }
     }
   });
 
-  // Disconnect button handler
-  sheetsDisconnectBtn?.addEventListener('click', async () => {
+  // Admin Modal Sign Out Button
+  adminModalSignOutBtn?.addEventListener('click', async () => {
     await logoutUser();
-    updateSheetsUI(null, null);
+    currentAdminUser = null;
+    currentAdminToken = null;
+    updateAdminModalUI();
   });
 
-  // Pending booking state
+  // Admin Modal Batch Sync Button
+  adminModalBatchSyncBtn?.addEventListener('click', async () => {
+    let token = currentAdminToken || getAccessToken();
+    if (!token) {
+      try {
+        const res = await googleSignIn();
+        if (res) {
+          token = res.accessToken;
+          currentAdminUser = res.user;
+          currentAdminToken = res.accessToken;
+        }
+      } catch (err) {
+        console.warn('Sign-in cancelled:', err);
+        return;
+      }
+    }
+
+    if (token) {
+      if (adminModalBatchSyncBtn) {
+        adminModalBatchSyncBtn.disabled = true;
+      }
+      const syncRes = await syncAllPendingBookings(token);
+      updateAdminModalUI();
+      if (adminModalBatchSyncBtn) {
+        adminModalBatchSyncBtn.disabled = false;
+      }
+      alert(syncRes.message);
+    }
+  });
+
+  // Pending booking form state
   let pendingBooking: BookingFormData | null = null;
 
   if (bookingForm) {
@@ -317,6 +394,17 @@ document.addEventListener('DOMContentLoaded', () => {
       // Fill in Confirmation Modal Details
       const modalSummary = document.getElementById('confirmModalSummary');
       if (modalSummary) {
+        const isConnected = !!(getAccessToken() || currentAdminToken);
+        const sheetsStatusBadge = isConnected
+          ? `<div style="display: flex; align-items: center; gap: 8px; margin-top: 14px; padding: 10px 14px; background: rgba(16, 124, 65, 0.08); border: 1px solid rgba(16, 124, 65, 0.25); border-radius: 8px; font-size: 0.84rem; color: #107c41;">
+               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+               <span><strong>Google Sheets Auto-Sync:</strong> Appointment will automatically record to admin spreadsheet upon confirmation.</span>
+             </div>`
+          : `<div style="display: flex; align-items: center; gap: 8px; margin-top: 14px; padding: 10px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 0.84rem; color: #475569;">
+               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+               <span><strong>Backend Google Sheets Sync:</strong> Ready to record. Connect your Google account during confirmation to auto-sync.</span>
+             </div>`;
+
         modalSummary.innerHTML = `
           <div class="confirm-summary-row"><span>Service Package:</span> <strong>${pendingBooking.service}</strong></div>
           <div class="confirm-summary-row"><span>Property Size:</span> <strong>${pendingBooking.propertySize}</strong></div>
@@ -325,6 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="confirm-summary-row"><span>Client Contact:</span> <strong>${pendingBooking.clientName} (${pendingBooking.clientPhone})</strong></div>
           <div class="confirm-summary-row"><span>Service Address:</span> <strong>${pendingBooking.serviceAddress}, ${pendingBooking.cityArea}</strong></div>
           <div class="confirm-summary-row highlight"><span>Estimated Rate:</span> <strong>$${pendingBooking.estimatedPrice} CAD</strong></div>
+          ${sheetsStatusBadge}
         `;
       }
 
@@ -341,6 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // CONFIRM RESERVATION BUTTON CLICK
   confirmProceedBtn?.addEventListener('click', async () => {
     if (!pendingBooking) return;
 
@@ -372,6 +462,26 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn('Could not cache booking locally:', err);
       }
 
+      // Check if we have an active Google access token
+      let token = currentAdminToken || getAccessToken();
+
+      // If token is missing, attempt to connect Google Sheets right from this user gesture
+      if (!token) {
+        try {
+          if (confirmProceedBtn) {
+            confirmProceedBtn.textContent = 'Connecting Google Sheets...';
+          }
+          const authRes = await googleSignIn();
+          if (authRes?.accessToken) {
+            token = authRes.accessToken;
+            currentAdminToken = authRes.accessToken;
+            currentAdminUser = authRes.user;
+          }
+        } catch (authErr: any) {
+          console.warn('Google sign-in was dismissed or skipped during confirmation:', authErr);
+        }
+      }
+
       // Close confirmation modal
       if (confirmationModal) {
         confirmationModal.classList.remove('is-active');
@@ -381,47 +491,72 @@ document.addEventListener('DOMContentLoaded', () => {
       if (successModal) {
         const idElem = document.getElementById('successBookingId');
         if (idElem) idElem.textContent = bookingId;
+        if (successSheetNotice) {
+          successSheetNotice.style.display = 'flex';
+        }
         if (successSheetNoticeText) {
-          successSheetNoticeText.textContent = 'Syncing appointment to Google Sheets...';
+          successSheetNoticeText.textContent = token
+            ? 'Saving appointment to Google Sheets...'
+            : 'Appointment confirmed! Sign in below to sync to Google Sheets:';
+        }
+        if (successGoogleSignInBtn) {
+          successGoogleSignInBtn.style.display = token ? 'none' : 'inline-flex';
         }
         successModal.classList.add('is-active');
       }
 
-      // Perform Google Sheets sync if authenticated
-      const token = getAccessToken();
+      // Perform Google Sheets sync if token is available
       if (token) {
         try {
           const syncResult = await appendBookingToGoogleSheet(record);
           if (syncResult.success) {
             record.syncedToSheets = true;
             record.sheetsUrl = syncResult.spreadsheetUrl;
+
+            // Update the record in localStorage
+            try {
+              const currentList: SavedBookingRecord[] = JSON.parse(localStorage.getItem('laurentian_bookings') || '[]');
+              const idx = currentList.findIndex(b => b.bookingId === record.bookingId);
+              if (idx !== -1) {
+                currentList[idx] = record;
+                localStorage.setItem('laurentian_bookings', JSON.stringify(currentList));
+              }
+            } catch (e) {
+              console.warn(e);
+            }
+
             if (successSheetNoticeText) {
-              successSheetNoticeText.innerHTML = `Saved to Google Sheets &bull; <a href="${syncResult.spreadsheetUrl}" target="_blank" style="color: #107c41; font-weight: 700; text-decoration: underline;">View in Sheets</a>`;
+              successSheetNoticeText.innerHTML = `Saved to Google Sheets &bull; <a href="${syncResult.spreadsheetUrl}" target="_blank" rel="noopener noreferrer" style="color: #107c41; font-weight: 700; text-decoration: underline;">View in Sheets ↗</a>`;
             }
-            if (sheetsOpenLink) {
-              sheetsOpenLink.style.display = 'inline-flex';
-              sheetsOpenLink.href = syncResult.spreadsheetUrl;
+            if (successGoogleSignInBtn) {
+              successGoogleSignInBtn.style.display = 'none';
             }
+
+            // Also batch sync any other pending appointments to the sheet
+            syncAllPendingBookings(token).catch(console.warn);
           } else {
             if (successSheetNoticeText) {
-              successSheetNoticeText.textContent = 'Saved to database (Google Sheets sync: ' + (syncResult.message || 'Pending sign-in') + ')';
+              successSheetNoticeText.textContent = 'Saved to database. (Sheets sync: ' + (syncResult.message || 'Error saving') + ')';
+            }
+            if (successGoogleSignInBtn) {
+              successGoogleSignInBtn.style.display = 'inline-flex';
             }
           }
         } catch (syncErr: any) {
           console.warn('Google Sheets auto-append notice:', syncErr);
           if (successSheetNoticeText) {
-            successSheetNoticeText.textContent = 'Saved locally. Admin can sync via Google Sheets toolbar.';
+            successSheetNoticeText.textContent = 'Saved to database. Google Sheets connection pending.';
           }
-        }
-      } else {
-        if (successSheetNoticeText) {
-          successSheetNoticeText.textContent = 'Saved! Connect Admin Google account in the reservation toolbar to view in Sheets.';
+          if (successGoogleSignInBtn) {
+            successGoogleSignInBtn.style.display = 'inline-flex';
+          }
         }
       }
 
-      // Reset form
+      // Reset form & update quote
       bookingForm?.reset();
       updatePriceQuote();
+      updateAdminModalUI();
 
     } catch (err) {
       console.error('Failed to confirm booking:', err);
@@ -433,6 +568,38 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Success Modal Google Sign-In button handler
+  successGoogleSignInBtn?.addEventListener('click', async () => {
+    try {
+      successGoogleSignInBtn.disabled = true;
+      successGoogleSignInBtn.style.opacity = '0.6';
+      const authRes = await googleSignIn();
+      if (authRes?.accessToken) {
+        currentAdminToken = authRes.accessToken;
+        currentAdminUser = authRes.user;
+        if (successSheetNoticeText) {
+          successSheetNoticeText.textContent = 'Syncing appointment to Google Sheets...';
+        }
+        const syncRes = await syncAllPendingBookings(authRes.accessToken);
+        if (syncRes.success) {
+          successGoogleSignInBtn.style.display = 'none';
+          if (successSheetNoticeText) {
+            successSheetNoticeText.innerHTML = `Saved to Google Sheets &bull; <a href="${syncRes.spreadsheetUrl}" target="_blank" rel="noopener noreferrer" style="color: #107c41; font-weight: 700; text-decoration: underline;">Open Google Sheet ↗</a>`;
+          }
+        }
+        updateAdminModalUI();
+      }
+    } catch (err: any) {
+      console.warn('Google sign-in error:', err);
+      alert('Google authentication failed: ' + (err.message || 'Please try again.'));
+    } finally {
+      if (successGoogleSignInBtn) {
+        successGoogleSignInBtn.disabled = false;
+        successGoogleSignInBtn.style.opacity = '1';
+      }
+    }
+  });
+
   closeSuccessBtn?.addEventListener('click', () => {
     if (successModal) {
       successModal.classList.remove('is-active');
@@ -440,7 +607,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Close modals on clicking backdrop
-  [confirmationModal, successModal].forEach((modal) => {
+  [confirmationModal, successModal, adminModal].forEach((modal) => {
     modal?.addEventListener('click', (e) => {
       if (e.target === modal) {
         modal.classList.remove('is-active');
@@ -456,6 +623,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (successModal?.classList.contains('is-active')) {
         successModal.classList.remove('is-active');
+      }
+      if (adminModal?.classList.contains('is-active')) {
+        adminModal.classList.remove('is-active');
       }
     }
   });
