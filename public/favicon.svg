@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#184A3B"/>
+      <stop offset="100%" stop-color="#236853"/>
+    </linearGradient>
+  </defs>
+  <!-- Background squircle -->
+  <rect width="32" height="32" rx="8" fill="url(#bgGrad)"/>
+  <!-- Amber emblem matching Laurentian brand logo -->
+  <path d="M16 4.5L13.2 11.8L5.5 12.8L11.2 18L9.5 25.8L16 21.8L22.5 25.8L20.8 18L26.5 12.8L18.8 11.8L16 4.5Z" 
+        fill="#D4901A" 
+        stroke="#FFFFFF" 
+        stroke-width="0.75" 
+        stroke-linejoin="round"/>
+</svg>
