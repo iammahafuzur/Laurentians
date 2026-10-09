@@ -1,3 +1,16 @@
+import {
+  initAuth,
+  googleSignIn,
+  logoutUser,
+  getAccessToken
+} from './googleAuth';
+import {
+  appendBookingToGoogleSheet,
+  getSavedSpreadsheetId,
+  saveSpreadsheetId
+} from './googleSheetsService';
+import type { User } from 'firebase/auth';
+
 export interface BookingFormData {
   service: string;
   propertySize: string;
@@ -17,6 +30,8 @@ export interface SavedBookingRecord extends BookingFormData {
   bookingId: string;
   createdAt: string;
   status: 'Confirmed' | 'Pending Review';
+  syncedToSheets?: boolean;
+  sheetsUrl?: string;
 }
 
 /**
@@ -86,6 +101,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const successModal = document.getElementById('bookingSuccessModal');
   const closeSuccessBtn = document.getElementById('closeSuccessModalBtn');
 
+  // Sheets UI elements
+  const sheetsSyncDot = document.getElementById('sheetsSyncDot');
+  const sheetsStatusText = document.getElementById('sheetsStatusText');
+  const sheetsConnectBtn = document.getElementById('sheetsConnectBtn') as HTMLButtonElement | null;
+  const sheetsOpenLink = document.getElementById('sheetsOpenLink') as HTMLAnchorElement | null;
+  const sheetsDisconnectBtn = document.getElementById('sheetsDisconnectBtn') as HTMLButtonElement | null;
+  const successSheetNoticeText = document.getElementById('successSheetNoticeText');
+
   // Input elements
   const serviceSelect = document.getElementById('bookingService') as HTMLSelectElement | null;
   const sizeSelect = document.getElementById('bookingPropertySize') as HTMLSelectElement | null;
@@ -124,6 +147,132 @@ document.addEventListener('DOMContentLoaded', () => {
     el?.addEventListener('change', updatePriceQuote);
   });
   updatePriceQuote();
+
+  // Support ?admin=true or ?admin=1 or hash #admin or Ctrl+Shift+A for Admin view
+  const urlParams = new URLSearchParams(window.location.search);
+  const isAdminParam =
+    urlParams.get('admin') === 'true' ||
+    urlParams.get('admin') === '1' ||
+    window.location.hash === '#admin';
+
+  const adminPanel = document.getElementById('adminSheetsPanel');
+
+  const setAdminVisibility = (show: boolean) => {
+    if (!adminPanel) return;
+    if (show) {
+      document.body.classList.add('show-admin-sheets');
+      adminPanel.removeAttribute('hidden');
+      adminPanel.removeAttribute('aria-hidden');
+      adminPanel.style.setProperty('display', 'inline-flex', 'important');
+    } else {
+      document.body.classList.remove('show-admin-sheets');
+      adminPanel.setAttribute('hidden', 'true');
+      adminPanel.setAttribute('aria-hidden', 'true');
+      adminPanel.style.setProperty('display', 'none', 'important');
+    }
+  };
+
+  // Initially hidden from frontend visitors
+  setAdminVisibility(isAdminParam);
+
+  // Keyboard shortcut Ctrl+Shift+A or Cmd+Shift+A to toggle admin view when needed
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'a') {
+      const isVisible = document.body.classList.contains('show-admin-sheets');
+      setAdminVisibility(!isVisible);
+    }
+  });
+
+  // Helper to update Sheets Admin state
+  const updateSheetsUI = (user: User | null, token: string | null) => {
+    const currentSheetId = getSavedSpreadsheetId();
+    if (user && token) {
+      if (sheetsSyncDot) {
+        sheetsSyncDot.classList.add('connected');
+      }
+      if (sheetsStatusText) {
+        sheetsStatusText.textContent = `Connected as ${user.displayName || user.email || 'Admin'}`;
+      }
+      if (sheetsConnectBtn) {
+        sheetsConnectBtn.style.display = 'none';
+      }
+      if (sheetsOpenLink) {
+        sheetsOpenLink.style.display = 'inline-flex';
+        sheetsOpenLink.href = currentSheetId
+          ? `https://docs.google.com/spreadsheets/d/${currentSheetId}/edit`
+          : 'https://docs.google.com/spreadsheets/u/0/';
+      }
+      if (sheetsDisconnectBtn) {
+        sheetsDisconnectBtn.style.display = 'inline-flex';
+      }
+    } else {
+      if (sheetsSyncDot) {
+        sheetsSyncDot.classList.remove('connected');
+      }
+      if (sheetsStatusText) {
+        sheetsStatusText.textContent = currentSheetId
+          ? 'Sheet Configured (Sign in to auto-sync)'
+          : 'Admin Sheets Standby';
+      }
+      if (sheetsConnectBtn) {
+        sheetsConnectBtn.style.display = 'inline-flex';
+      }
+      if (sheetsOpenLink) {
+        if (currentSheetId) {
+          sheetsOpenLink.style.display = 'inline-flex';
+          sheetsOpenLink.href = `https://docs.google.com/spreadsheets/d/${currentSheetId}/edit`;
+        } else {
+          sheetsOpenLink.style.display = 'none';
+        }
+      }
+      if (sheetsDisconnectBtn) {
+        sheetsDisconnectBtn.style.display = 'none';
+      }
+    }
+  };
+
+  // Auth Listener
+  initAuth(
+    (user, token) => {
+      updateSheetsUI(user, token);
+    },
+    () => {
+      updateSheetsUI(null, null);
+    }
+  );
+
+  // Connect Google Sheets Button click handler
+  sheetsConnectBtn?.addEventListener('click', async () => {
+    try {
+      if (sheetsConnectBtn) {
+        sheetsConnectBtn.textContent = 'Connecting...';
+      }
+      const res = await googleSignIn();
+      if (res) {
+        updateSheetsUI(res.user, res.accessToken);
+      }
+    } catch (err: any) {
+      console.error('Failed to sign in for Google Sheets sync:', err);
+      alert('Could not authenticate Google Sheets account: ' + (err.message || 'Unknown error'));
+    } finally {
+      if (sheetsConnectBtn) {
+        sheetsConnectBtn.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+            <polyline points="10 17 15 12 10 7"/>
+            <line x1="15" y1="12" x2="3" y2="12"/>
+          </svg>
+          <span>Connect Admin Account</span>
+        `;
+      }
+    }
+  });
+
+  // Disconnect button handler
+  sheetsDisconnectBtn?.addEventListener('click', async () => {
+    await logoutUser();
+    updateSheetsUI(null, null);
+  });
 
   // Pending booking state
   let pendingBooking: BookingFormData | null = null;
@@ -192,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  confirmProceedBtn?.addEventListener('click', () => {
+  confirmProceedBtn?.addEventListener('click', async () => {
     if (!pendingBooking) return;
 
     if (confirmProceedBtn) {
@@ -205,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const randomSuffix = Math.floor(1000 + Math.random() * 9000);
       const bookingId = `LEC-2026-${randomSuffix}`;
 
-      // Save locally to persist booking record
+      // Construct booking record
       const record: SavedBookingRecord = {
         ...pendingBooking,
         bookingId,
@@ -213,6 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
         status: 'Confirmed'
       };
 
+      // Save locally to persist booking record
       try {
         const stored = localStorage.getItem('laurentian_bookings');
         const bookingsList: SavedBookingRecord[] = stored ? JSON.parse(stored) : [];
@@ -231,7 +381,42 @@ document.addEventListener('DOMContentLoaded', () => {
       if (successModal) {
         const idElem = document.getElementById('successBookingId');
         if (idElem) idElem.textContent = bookingId;
+        if (successSheetNoticeText) {
+          successSheetNoticeText.textContent = 'Syncing appointment to Google Sheets...';
+        }
         successModal.classList.add('is-active');
+      }
+
+      // Perform Google Sheets sync if authenticated
+      const token = getAccessToken();
+      if (token) {
+        try {
+          const syncResult = await appendBookingToGoogleSheet(record);
+          if (syncResult.success) {
+            record.syncedToSheets = true;
+            record.sheetsUrl = syncResult.spreadsheetUrl;
+            if (successSheetNoticeText) {
+              successSheetNoticeText.innerHTML = `Saved to Google Sheets &bull; <a href="${syncResult.spreadsheetUrl}" target="_blank" style="color: #107c41; font-weight: 700; text-decoration: underline;">View in Sheets</a>`;
+            }
+            if (sheetsOpenLink) {
+              sheetsOpenLink.style.display = 'inline-flex';
+              sheetsOpenLink.href = syncResult.spreadsheetUrl;
+            }
+          } else {
+            if (successSheetNoticeText) {
+              successSheetNoticeText.textContent = 'Saved to database (Google Sheets sync: ' + (syncResult.message || 'Pending sign-in') + ')';
+            }
+          }
+        } catch (syncErr: any) {
+          console.warn('Google Sheets auto-append notice:', syncErr);
+          if (successSheetNoticeText) {
+            successSheetNoticeText.textContent = 'Saved locally. Admin can sync via Google Sheets toolbar.';
+          }
+        }
+      } else {
+        if (successSheetNoticeText) {
+          successSheetNoticeText.textContent = 'Saved! Connect Admin Google account in the reservation toolbar to view in Sheets.';
+        }
       }
 
       // Reset form

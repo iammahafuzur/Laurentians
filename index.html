@@ -2358,6 +2358,99 @@
       }
     }
 
+    /* Google Sheets Admin & Sync Integration Styles (Hidden on frontend; runs in background/backend) */
+    .admin-sheets-panel,
+    #adminSheetsPanel {
+      display: none !important;
+      margin-top: 22px;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(24, 74, 59, 0.2);
+      border-radius: 9999px;
+      box-shadow: 0 4px 14px rgba(24, 74, 59, 0.08);
+      font-size: 0.88rem;
+    }
+    body.show-admin-sheets #adminSheetsPanel {
+      display: inline-flex !important;
+    }
+    .admin-sheets-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      color: #0f5132;
+    }
+    .admin-sheets-badge svg {
+      color: #107c41;
+      flex-shrink: 0;
+    }
+    .admin-sheets-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sheets-sync-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: var(--color-neutral-700);
+    }
+    .sheets-sync-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #f59e0b;
+      display: inline-block;
+    }
+    .sheets-sync-dot.connected {
+      background-color: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    }
+    .sheets-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border-radius: 9999px;
+      border: 1px solid var(--color-neutral-300);
+      background: var(--color-white);
+      color: var(--brand-dark);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .sheets-action-btn:hover {
+      background: var(--color-neutral-100);
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
+    }
+    .sheets-action-btn.btn-sheets-connect {
+      background: #107c41;
+      border-color: #107c41;
+      color: #fff;
+    }
+    .sheets-action-btn.btn-sheets-connect:hover {
+      background: #0b592e;
+    }
+    .sheets-view-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #0f5132;
+      font-weight: 700;
+      text-decoration: underline;
+      font-size: 0.84rem;
+    }
+    .sheets-view-link:hover {
+      color: #107c41;
+    }
+
     /* Accessibility: Respect Reduced Motion Preference */
     @media (prefers-reduced-motion: reduce) {
       html {
@@ -3277,6 +3370,45 @@
           <p class="section-subtitle">
             Schedule your cleaning in under 60 seconds with transparent pricing. Our dedicated Canadian dispatch team will immediately confirm your reservation.
           </p>
+
+          <!-- Admin Google Sheets Live Sync Bar (Runs in background/backend; hidden from customer frontend) -->
+          <div class="admin-sheets-panel" id="adminSheetsPanel" aria-label="Google Sheets Admin Sync Status" style="display: none;" hidden aria-hidden="true">
+            <div class="admin-sheets-badge">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <line x1="3" y1="9" x2="21" y2="9"/>
+                <line x1="3" y1="15" x2="21" y2="15"/>
+                <line x1="9" y1="3" x2="9" y2="21"/>
+                <line x1="15" y1="3" x2="15" y2="21"/>
+              </svg>
+              <span>Google Sheets Admin Sync:</span>
+            </div>
+            <div class="admin-sheets-meta">
+              <span class="sheets-sync-status" id="sheetsSyncStatus">
+                <span class="sheets-sync-dot" id="sheetsSyncDot"></span>
+                <span id="sheetsStatusText">Checking connection...</span>
+              </span>
+              <button type="button" class="sheets-action-btn btn-sheets-connect" id="sheetsConnectBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                  <polyline points="10 17 15 12 10 7"/>
+                  <line x1="15" y1="12" x2="3" y2="12"/>
+                </svg>
+                <span>Connect Admin Account</span>
+              </button>
+              <a href="#" target="_blank" rel="noopener noreferrer" class="sheets-action-btn" id="sheetsOpenLink" style="display: none;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+                <span>Open Google Sheet</span>
+              </a>
+              <button type="button" class="sheets-action-btn" id="sheetsDisconnectBtn" style="display: none; color: #dc2626;">
+                Sign Out
+              </button>
+            </div>
+          </div>
         </header>
 
         <div class="booking-layout">
@@ -4014,6 +4146,11 @@
       <div style="background-color: var(--color-surface); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--color-neutral-200); margin-bottom: 24px;">
         <span style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-neutral-500); font-weight: 700; letter-spacing: 0.05em;">Booking Reference ID</span>
         <div id="successBookingId" style="font-size: 1.4rem; font-weight: 800; color: var(--brand-primary); margin-top: 4px;">LEC-2026-0000</div>
+        <!-- Google Sheets Save Status (runs in backend) -->
+        <div id="successSheetNotice" style="display: none; margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--color-neutral-300); font-size: 0.85rem; color: #0f5132; align-items: center; justify-content: center; gap: 6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <span id="successSheetNoticeText">Syncing to Admin Google Sheets...</span>
+        </div>
       </div>
 
       <div>
