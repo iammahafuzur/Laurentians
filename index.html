@@ -2535,6 +2535,855 @@
       z-index: 1;
     }
 
+    /* Formal Client Email Confirmation Notification System */
+    .success-email-box {
+      margin-top: 16px;
+      padding: 16px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: var(--radius-md);
+      text-align: left;
+    }
+    .email-box-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .email-badge-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #dcfce7;
+      color: #15803d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .email-box-title-wrap {
+      flex: 1;
+      min-width: 160px;
+    }
+    .email-box-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #14532d;
+      line-height: 1.2;
+    }
+    .email-box-subtitle {
+      font-size: 0.8rem;
+      color: #166534;
+      margin-top: 2px;
+      word-break: break-all;
+    }
+    .email-status-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      background: #22c55e;
+      color: #ffffff;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .email-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    @media (min-width: 480px) {
+      .email-actions-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .btn-email-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 10px 14px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      min-height: 42px;
+      touch-action: manipulation;
+    }
+    .btn-email-send {
+      background: #15803d;
+      color: #ffffff;
+      border-color: #15803d;
+    }
+    .btn-email-send:hover {
+      background: #166534;
+      color: #ffffff;
+    }
+    .btn-email-copy {
+      background: #ffffff;
+      color: #15803d;
+      border-color: #86efac;
+    }
+    .btn-email-copy:hover {
+      background: #f0fdf4;
+      border-color: #15803d;
+    }
+    .btn-email-share {
+      background: #ffffff;
+      color: var(--brand-dark);
+      border-color: var(--color-neutral-300);
+    }
+    .btn-email-share:hover {
+      background: var(--color-neutral-100);
+    }
+    .btn-email-print {
+      background: #ffffff;
+      color: var(--color-neutral-700);
+      border-color: var(--color-neutral-300);
+    }
+    .btn-email-print:hover {
+      background: var(--color-neutral-100);
+      color: var(--color-neutral-900);
+    }
+    .email-preview-container {
+      border-top: 1px dashed #bbf7d0;
+      padding-top: 10px;
+    }
+    .btn-email-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: none;
+      border: none;
+      padding: 6px 4px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #15803d;
+      cursor: pointer;
+      text-align: left;
+    }
+    .btn-email-toggle:hover {
+      text-decoration: underline;
+    }
+    .email-preview-body {
+      margin-top: 8px;
+      background: #ffffff;
+      border: 1px solid #dcfce7;
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      font-size: 0.8rem;
+    }
+    .email-field-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--color-neutral-200);
+      color: var(--color-neutral-700);
+      font-size: 0.8rem;
+    }
+    .email-pre-text {
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.76rem;
+      line-height: 1.45;
+      color: var(--color-neutral-800);
+      max-height: 180px;
+      overflow-y: auto;
+      margin: 0;
+      padding: 8px;
+      background: var(--color-surface);
+      border-radius: 4px;
+    }
+
+    /* Floating Toast Notification */
+    .app-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(40px);
+      background: #111827;
+      color: #ffffff;
+      padding: 12px 22px;
+      border-radius: 9999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      max-width: 90vw;
+      text-align: center;
+    }
+    .app-toast.is-visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    /* -------------------------------------------------------------------------
+       18. MOBILE-FIRST & USER-FRIENDLY RESPONSIVE SYSTEM
+       High-performance mobile ergonomics, touch targets (>=44px), iOS auto-zoom
+       elimination, bottom navigation, and zero horizontal viewport overflow.
+       ------------------------------------------------------------------------- */
+
+    /* Mobile Quick-Action Bottom Bar (Default hidden on desktop/tablet) */
+    .mobile-bottom-bar {
+      display: none;
+    }
+
+    /* Mobile Live Quote Banner inside Booking Form */
+    .mobile-live-quote-card {
+      display: none;
+      background: linear-gradient(135deg, var(--brand-dark) 0%, #1c352a 100%);
+      color: var(--color-white);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 16px rgba(20, 34, 29, 0.15);
+    }
+
+    @media (max-width: 991px) {
+      .mobile-live-quote-card {
+        display: block;
+      }
+    }
+
+    .mobile-quote-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .mobile-quote-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--brand-secondary);
+    }
+
+    .mobile-quote-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #22c55e;
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.35);
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+
+    .mobile-quote-val-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .mobile-quote-amount {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--color-white);
+      line-height: 1;
+    }
+
+    .mobile-quote-unit {
+      font-size: 0.8rem;
+      color: var(--color-neutral-300);
+    }
+
+    .mobile-quote-desc {
+      font-size: 0.85rem;
+      color: var(--color-neutral-200);
+      line-height: 1.4;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    /* Admin Table Mobile Scroll Wrapper */
+    .admin-table-scroll-wrap {
+      max-height: 240px;
+      overflow-y: auto;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--color-neutral-200);
+      border-radius: 6px;
+      width: 100%;
+    }
+
+    .admin-modal-table {
+      min-width: 520px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    /* Mobile Screens <= 767px (Thumb Navigation & Sticky Bottom Bar) */
+    @media (max-width: 767px) {
+      body {
+        padding-bottom: 74px !important;
+      }
+
+      .mobile-bottom-bar {
+        display: block !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 1030 !important;
+        background-color: rgba(255, 255, 255, 0.98) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        border-top: 1px solid var(--color-neutral-200) !important;
+        box-shadow: 0 -4px 20px rgba(20, 34, 29, 0.12) !important;
+        padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)) 12px !important;
+      }
+
+      .mobile-bottom-bar-inner {
+        display: grid;
+        grid-template-columns: 1fr 1.8fr 1fr;
+        gap: 8px;
+        align-items: center;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+
+      .mobile-bar-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        padding: 8px 6px;
+        border-radius: var(--radius-sm);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: var(--transition);
+        min-height: 48px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .mobile-bar-call {
+        color: var(--brand-primary);
+        background: var(--brand-surface);
+        border: 1px solid rgba(24, 74, 59, 0.15);
+      }
+      .mobile-bar-call:active {
+        background: #e2ece6;
+      }
+
+      .mobile-bar-chat {
+        color: #15803d;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+      }
+      .mobile-bar-chat:active {
+        background: #dcfce7;
+      }
+
+      .mobile-bar-book {
+        background: var(--brand-secondary);
+        color: #ffffff;
+        box-shadow: 0 3px 10px rgba(212, 144, 26, 0.35);
+        flex-direction: row;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: var(--radius-sm);
+      }
+      .mobile-bar-book:active {
+        background: #be7f12;
+      }
+
+      .mobile-bar-book-badge {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.15;
+      }
+
+      .mobile-bar-book-quote {
+        font-size: 0.82rem;
+        font-weight: 800;
+        color: #fff9ed;
+        letter-spacing: -0.01em;
+      }
+
+      .mobile-bar-book-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        opacity: 0.95;
+      }
+
+      .whatsapp-fab {
+        bottom: 78px !important;
+        right: 14px !important;
+        padding: 12px !important;
+        width: 48px !important;
+        height: 48px !important;
+      }
+
+      .app-toast {
+        bottom: 84px !important;
+      }
+    }
+
+    /* Mobile Deep Ergonomics & Layout Scaling <= 640px */
+    @media (max-width: 640px) {
+      /* Prevent iOS Safari auto-zoom on input focus */
+      input, select, textarea, .form-control {
+        font-size: 16px !important;
+        min-height: 48px !important;
+        padding: 12px 14px !important;
+        border-radius: var(--radius-sm) !important;
+        touch-action: manipulation;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      select.form-control {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23384A42' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        background-size: 14px;
+        padding-right: 36px !important;
+      }
+
+      textarea.form-control {
+        min-height: 88px !important;
+      }
+
+      /* Viewport & Spacing */
+      .container {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+      }
+
+      .section-padding {
+        padding: 52px 0 !important;
+      }
+
+      .section-header {
+        margin-bottom: 34px !important;
+      }
+
+      .section-eyebrow {
+        font-size: 0.75rem !important;
+        padding: 5px 12px !important;
+        margin-bottom: 12px !important;
+      }
+
+      .section-title {
+        font-size: 1.85rem !important;
+        line-height: 1.22 !important;
+        margin-bottom: 12px !important;
+      }
+
+      .section-subtitle {
+        font-size: 0.95rem !important;
+        line-height: 1.55 !important;
+      }
+
+      /* Header on Mobile */
+      .site-header {
+        height: 66px !important;
+      }
+
+      .header-container {
+        gap: 8px !important;
+      }
+
+      .brand-title {
+        font-size: 1.125rem !important;
+      }
+
+      .brand-text-sub {
+        font-size: 0.625rem !important;
+      }
+
+      .logo-symbol {
+        width: 34px !important;
+        height: 34px !important;
+      }
+
+      .header-actions {
+        gap: 6px !important;
+      }
+
+      .header-book-btn {
+        padding: 8px 12px !important;
+        font-size: 0.82rem !important;
+        min-height: 38px !important;
+        gap: 5px !important;
+      }
+
+      .menu-toggle {
+        width: 42px !important;
+        height: 42px !important;
+      }
+
+      /* Hero Section on Mobile */
+      .hero-section {
+        padding: 36px 0 48px 0 !important;
+      }
+
+      .hero-badge {
+        font-size: 0.78rem !important;
+        padding: 6px 12px !important;
+        margin-bottom: 16px !important;
+      }
+
+      .hero-title {
+        font-size: 1.95rem !important;
+        line-height: 1.2 !important;
+        margin-bottom: 16px !important;
+      }
+
+      .hero-description {
+        font-size: 0.98rem !important;
+        line-height: 1.55 !important;
+        margin-bottom: 24px !important;
+      }
+
+      .hero-actions {
+        flex-direction: column !important;
+        gap: 12px !important;
+        margin-bottom: 28px !important;
+      }
+
+      .hero-actions .btn {
+        width: 100% !important;
+        justify-content: center !important;
+        min-height: 48px !important;
+      }
+
+      .hero-highlights {
+        gap: 12px !important;
+        padding-top: 18px !important;
+      }
+
+      .hero-highlight-item {
+        font-size: 0.82rem !important;
+      }
+
+      /* Touch-Friendly Global Buttons */
+      .btn {
+        min-height: 48px !important;
+        touch-action: manipulation !important;
+      }
+
+      /* Booking Form Elements */
+      .booking-form-card {
+        padding: 20px 16px !important;
+        border-radius: var(--radius-md) !important;
+      }
+
+      .booking-step {
+        margin-bottom: 24px !important;
+        padding-bottom: 20px !important;
+      }
+
+      .booking-step-header {
+        margin-bottom: 14px !important;
+        gap: 12px !important;
+      }
+
+      .booking-step-num {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 0.85rem !important;
+      }
+
+      .booking-step-title {
+        font-size: 1.12rem !important;
+      }
+
+      .form-grid-2 {
+        gap: 14px !important;
+      }
+
+      .form-group {
+        margin-bottom: 14px !important;
+      }
+
+      #bookingSubmitBtn {
+        min-height: 52px !important;
+        font-size: 1.05rem !important;
+        padding: 14px 20px !important;
+        width: 100% !important;
+      }
+
+      /* Modals (Touch-Optimized Bottom-Sheet / Adaptive Card) */
+      .custom-modal-backdrop {
+        padding: 10px !important;
+        align-items: flex-end !important;
+      }
+
+      .custom-modal {
+        padding: 22px 16px !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 88vh !important;
+        border-radius: 20px 20px 0 0 !important;
+      }
+
+      .modal-header-icon {
+        width: 44px !important;
+        height: 44px !important;
+        margin-bottom: 12px !important;
+      }
+
+      .modal-title {
+        font-size: 1.25rem !important;
+      }
+
+      .modal-description {
+        font-size: 0.88rem !important;
+        margin-bottom: 16px !important;
+      }
+
+      .confirm-summary-box {
+        padding: 14px 12px !important;
+        gap: 8px !important;
+        margin-bottom: 18px !important;
+      }
+
+      .confirm-summary-row {
+        font-size: 0.84rem !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 2px !important;
+      }
+
+      .confirm-summary-row.highlight {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        font-size: 0.95rem !important;
+        padding-top: 8px !important;
+      }
+
+      .modal-actions {
+        flex-direction: column !important;
+        gap: 10px !important;
+      }
+
+      .modal-actions .btn {
+        width: 100% !important;
+        min-height: 48px !important;
+      }
+
+      #confirmBookingProceedBtn {
+        order: 1 !important;
+      }
+
+      #confirmBookingCancelBtn {
+        order: 2 !important;
+      }
+
+      /* Email Action Buttons Grid on Mobile */
+      .email-actions-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+      }
+
+      .btn-email-action {
+        min-height: 46px !important;
+        font-size: 0.88rem !important;
+        width: 100% !important;
+      }
+
+      /* Cards & Section Grids */
+      .services-grid {
+        gap: 20px !important;
+      }
+
+      .service-card {
+        border-radius: var(--radius-md) !important;
+      }
+
+      .service-image-container {
+        height: 175px !important;
+      }
+
+      .service-body {
+        padding: 20px 16px !important;
+      }
+
+      .service-title {
+        font-size: 1.2rem !important;
+      }
+
+      .service-action a {
+        padding: 8px 0 !important;
+        min-height: 44px !important;
+      }
+
+      .about-grid {
+        gap: 32px !important;
+      }
+
+      .about-image-frame {
+        aspect-ratio: 16 / 10 !important;
+      }
+
+      .about-stat-badge {
+        position: static !important;
+        margin-top: 14px !important;
+        width: 100% !important;
+        padding: 16px 20px !important;
+      }
+
+      .steps-grid {
+        gap: 20px !important;
+      }
+
+      .step-card {
+        padding: 24px 18px !important;
+        border-radius: var(--radius-md) !important;
+      }
+
+      .areas-container-box {
+        padding: 28px 16px !important;
+        border-radius: var(--radius-md) !important;
+      }
+
+      .areas-header h2 {
+        font-size: 1.7rem !important;
+      }
+
+      .areas-pill-grid {
+        gap: 8px !important;
+        margin-bottom: 24px !important;
+      }
+
+      .area-pill {
+        padding: 8px 14px !important;
+        font-size: 0.85rem !important;
+      }
+
+      .testimonials-grid {
+        gap: 18px !important;
+      }
+
+      .testimonial-card {
+        padding: 22px 18px !important;
+        border-radius: var(--radius-md) !important;
+      }
+
+      .faq-accordion {
+        gap: 10px !important;
+      }
+
+      .faq-trigger {
+        padding: 16px 14px !important;
+        font-size: 0.96rem !important;
+        min-height: 52px !important;
+        gap: 12px !important;
+      }
+
+      .faq-item.is-active .faq-content {
+        padding: 0 14px 18px 14px !important;
+      }
+
+      .contact-main-col, .contact-hours-col {
+        padding: 28px 18px !important;
+      }
+
+      .hours-table td {
+        padding: 10px 0 !important;
+        font-size: 0.88rem !important;
+      }
+
+      .footer-grid {
+        gap: 32px !important;
+        margin-bottom: 36px !important;
+      }
+
+      .site-footer {
+        padding: 52px 0 24px 0 !important;
+      }
+    }
+
+    /* Small Screen Specifics (iPhone SE / <= 380px) */
+    @media (max-width: 380px) {
+      .brand-text-sub {
+        display: none !important;
+      }
+      .header-book-btn span {
+        display: none !important;
+      }
+      .header-book-btn {
+        padding: 8px 10px !important;
+      }
+      .hero-title {
+        font-size: 1.75rem !important;
+      }
+      .section-title {
+        font-size: 1.65rem !important;
+      }
+    }
+
+    /* Print Styles for Formal Booking Receipt */
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+      #bookingSuccessModal,
+      #bookingSuccessModal * {
+        visibility: visible !important;
+      }
+      #bookingSuccessModal {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        background: transparent !important;
+        padding: 0 !important;
+      }
+      .custom-modal {
+        box-shadow: none !important;
+        border: 1px solid #111 !important;
+        max-width: 100% !important;
+        padding: 24px !important;
+        transform: none !important;
+      }
+      .modal-actions, .email-actions-grid, .btn, #closeSuccessModalBtn, .whatsapp-fab, .skip-link, .site-header, .site-footer {
+        display: none !important;
+      }
+      #emailPreviewContent {
+        display: block !important;
+      }
+    }
+
     /* Accessibility: Respect Reduced Motion Preference */
     @media (prefers-reduced-motion: reduce) {
       html {
@@ -3459,6 +4308,23 @@
         <div class="booking-layout">
           <!-- Left Column: Interactive Multi-Step Form -->
           <div class="booking-form-card reveal">
+            <!-- Mobile-first Live Quote Banner (Visible on mobile & tablet viewports) -->
+            <div class="mobile-live-quote-card" id="mobileLiveQuoteCard">
+              <div class="mobile-quote-header">
+                <div class="mobile-quote-pill">
+                  <span class="mobile-quote-dot" aria-hidden="true"></span>
+                  <span>Live Estimate</span>
+                </div>
+                <div class="mobile-quote-val-wrap">
+                  <span class="mobile-quote-amount" id="mobileQuoteAmount">$176 CAD</span>
+                  <span class="mobile-quote-unit">/ visit</span>
+                </div>
+              </div>
+              <div class="mobile-quote-desc" id="mobileQuoteBreakdown">
+                2 Bedrooms • Bi-Weekly Care (Save 10%)
+              </div>
+            </div>
+
             <form id="bookingForm" novalidate>
               <!-- Step 1: Cleaning Details -->
               <div class="booking-step">
@@ -3895,7 +4761,44 @@
   </a>
 
   <!-- =========================================================================
-       VANILLA JAVASCRIPT: ACCORDION, MOBILE DRAWER & SCROLL REVEAL
+       MOBILE QUICK-ACTION BOTTOM BAR (Smart Thumb Navigation)
+       Only rendered on mobile screens (< 768px). Provides 1-tap booking,
+       calling, and WhatsApp chat without obstructing viewport content.
+       ========================================================================= -->
+  <nav class="mobile-bottom-bar" id="mobileBottomBar" aria-label="Quick Actions">
+    <div class="mobile-bottom-bar-inner">
+      <a href="tel:+16045550189" class="mobile-bar-btn mobile-bar-call" aria-label="Call Laurentian EcoClean">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        <span>Call</span>
+      </a>
+
+      <a href="/booking" class="mobile-bar-btn mobile-bar-book" data-section="booking" aria-label="Book eco cleaning online">
+        <div class="mobile-bar-book-badge">
+          <span class="mobile-bar-book-quote" id="mobileBottomBarQuote">$176</span>
+          <span class="mobile-bar-book-label">Book Online</span>
+        </div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </a>
+
+      <a href="https://wa.me/16045550189?text=Hello%20Laurentian%20EcoClean%20Co.%2C%20I%20would%20like%20to%20inquire%20about%20your%20cleaning%20services." 
+         class="mobile-bar-btn mobile-bar-chat" 
+         target="_blank" 
+         rel="noopener noreferrer" 
+         aria-label="Chat with Laurentian EcoClean on WhatsApp">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.63C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.59 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.3C4.24 14.99 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67ZM9.07 7.37C8.9 7.37 8.63 7.43 8.39 7.69C8.16 7.94 7.5 8.56 7.5 9.83C7.5 11.1 8.42 12.33 8.55 12.5C8.68 12.67 10.36 15.26 12.93 16.37C13.54 16.64 14.02 16.79 14.39 16.91C15 17.11 15.56 17.08 16 17.01C16.49 16.94 17.51 16.39 17.72 15.8C17.93 15.21 17.93 14.7 17.87 14.59C17.81 14.48 17.64 14.42 17.38 14.29C17.13 14.16 15.87 13.54 15.64 13.46C15.41 13.37 15.24 13.33 15.07 13.59C14.9 13.84 14.41 14.42 14.26 14.59C14.11 14.76 13.96 14.78 13.71 14.65C13.45 14.52 12.37 14.17 11.08 13.02C10.08 12.13 9.4 11.03 9.27 10.82C9.15 10.61 9.26 10.49 9.39 10.36C9.5 10.25 9.64 10.07 9.77 9.92C9.9 9.77 9.94 9.67 10.03 9.49C10.11 9.32 10.07 9.17 10.01 9.04C9.94 8.92 9.45 7.71 9.24 7.22C9.04 6.74 8.84 6.8 8.69 6.79C8.55 6.79 8.38 6.79 8.21 6.79C8.04 6.79 7.76 6.85 7.53 7.1C7.3 7.35 6.64 7.97 6.64 9.24C6.64 10.51 7.56 11.74 7.69 11.91L9.07 7.37Z"/>
+        </svg>
+        <span>WhatsApp</span>
+      </a>
+    </div>
+  </nav>
        No external libraries, pure performant browser standards.
        ========================================================================= -->
   <script>
@@ -4215,6 +5118,84 @@
             </div>
           </button>
         </div>
+        <!-- Client-Side Formal Email Notification System -->
+        <div id="successEmailBox" class="success-email-box">
+          <div class="email-box-header">
+            <div class="email-badge-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div class="email-box-title-wrap">
+              <div class="email-box-title">Formal Confirmation Summary</div>
+              <div class="email-box-subtitle" id="emailRecipientSubtitle">Prepared for: client@example.com</div>
+            </div>
+            <span class="email-status-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span>Ready to Send</span>
+            </span>
+          </div>
+
+          <!-- Email Trigger Action Buttons (Responsive & Touch-Friendly) -->
+          <div class="email-actions-grid">
+            <a href="#" id="openMailtoBtn" class="btn-email-action btn-email-send" target="_blank" rel="noopener noreferrer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+              <span>Send / Open in Email App</span>
+            </a>
+
+            <button type="button" id="copyEmailSummaryBtn" class="btn-email-action btn-email-copy">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <span id="copyBtnText">Copy Email Text</span>
+            </button>
+
+            <button type="button" id="shareEmailBtn" class="btn-email-action btn-email-share" style="display: none;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="18" cy="5" r="3"/>
+                <circle cx="6" cy="12" r="3"/>
+                <circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+              <span>Share Summary</span>
+            </button>
+
+            <button type="button" id="printBookingReceiptBtn" class="btn-email-action btn-email-print">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 6 2 18 2 18 9"/>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                <rect x="6" y="14" width="12" height="8"/>
+              </svg>
+              <span>Print Receipt</span>
+            </button>
+          </div>
+
+          <!-- Collapsible Formal Email Preview -->
+          <div class="email-preview-container">
+            <button type="button" class="btn-email-toggle" id="toggleEmailPreviewBtn" aria-expanded="false">
+              <span>View Formal Email Draft Details</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div id="emailPreviewContent" class="email-preview-body" style="display: none;">
+              <div class="email-field-meta">
+                <div><strong>To:</strong> <span id="previewEmailTo"></span></div>
+                <div><strong>CC:</strong> <span>quotes@laurentianecoclean.ca (Laurentian Dispatch)</span></div>
+                <div><strong>Subject:</strong> <span id="previewEmailSubject"></span></div>
+              </div>
+              <pre id="previewEmailText" class="email-pre-text"></pre>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div>
@@ -4295,7 +5276,7 @@
           <h4 style="margin: 0; font-size: 0.95rem; font-weight: 700; color: var(--color-neutral-800);">Customer Bookings Queue</h4>
           <span id="adminModalBookingsCount" style="font-size: 0.8rem; color: var(--color-neutral-600); font-weight: 600;">0 total records</span>
         </div>
-        <div style="max-height: 220px; overflow-y: auto; border: 1px solid var(--color-neutral-200); border-radius: 6px;">
+        <div class="admin-table-scroll-wrap">
           <table class="admin-modal-table">
             <thead>
               <tr>
@@ -4315,6 +5296,14 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Floating Toast Notification -->
+  <div id="appToast" class="app-toast" role="status" aria-live="polite">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+    <span id="appToastText">Copied!</span>
   </div>
 
   <!-- =========================================================================

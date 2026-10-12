@@ -91,6 +91,70 @@ export const calculateEstimate = (
   return Math.round(basePrice);
 };
 
+/**
+ * Generate formal client email notification content
+ */
+export const generateFormalEmailContent = (booking: SavedBookingRecord) => {
+  const formattedDate = new Date(booking.createdAt).toLocaleDateString('en-CA', {
+    timeZone: 'America/Vancouver',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  const subject = `Booking Confirmation: ${booking.service} [Ref: ${booking.bookingId}] — Laurentian EcoClean Co.`;
+
+  const body = `Dear ${booking.clientName},
+
+Thank you for choosing Laurentian EcoClean Co. We are pleased to confirm your upcoming eco-friendly cleaning reservation.
+
+============================================================
+RESERVATION CONFIRMATION SUMMARY
+============================================================
+Booking Reference ID:  ${booking.bookingId}
+Booking Date:          ${formattedDate}
+Service Package:       ${booking.service}
+Property Size:         ${booking.propertySize}
+Frequency:             ${booking.frequency}
+Scheduled Date:        ${booking.preferredDate}
+Arrival Window:        ${booking.timeSlot}
+Estimated Total:       $${booking.estimatedPrice} CAD (Taxes Included)
+
+SERVICE LOCATION:
+Address:               ${booking.serviceAddress}
+City / Region:         ${booking.cityArea}, British Columbia
+
+CLIENT CONTACT:
+Name:                  ${booking.clientName}
+Phone:                 ${booking.clientPhone}
+Email:                 ${booking.clientEmail}
+
+SPECIAL INSTRUCTIONS & ACCESS NOTES:
+${booking.notes ? booking.notes : 'None specified (Standard residential/commercial access)'}
+
+============================================================
+WHAT TO EXPECT ON SERVICE DAY
+============================================================
+• 100% Eco-Certified Formulations: Our bonded specialists arrive fully equipped with hospital-grade, non-toxic, plant-based cleaning solutions and HEPA-filtration vacuums.
+• Arrival Window: Our Canadian cleaning crew will arrive within your selected window (${booking.timeSlot}).
+• Entry & Security: If you will not be present, please ensure access or lockbox codes are communicated to dispatch.
+• Satisfaction Guarantee: If any area does not meet your complete satisfaction, notify us within 24 hours for a complimentary touch-up.
+
+Need assistance, schedule modifications, or invoices?
+• Dispatch Hotline: +1 (604) 555-0189
+• Email: quotes@laurentianecoclean.ca
+• Office: 742 Burrard Street, Suite 500, Vancouver, BC V6Z 2S7
+
+Warm regards,
+Laurentian EcoClean Co. Dispatch & Customer Relations
+https://laurentianecoclean.ca
+`;
+
+  const mailtoUrl = `mailto:${encodeURIComponent(booking.clientEmail)}?cc=${encodeURIComponent('quotes@laurentianecoclean.ca')}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  return { subject, body, mailtoUrl };
+};
+
 // UI DOM Controller
 document.addEventListener('DOMContentLoaded', () => {
   const bookingForm = document.getElementById('bookingForm') as HTMLFormElement | null;
@@ -106,6 +170,79 @@ document.addEventListener('DOMContentLoaded', () => {
   const successSheetNotice = document.getElementById('successSheetNotice');
   const successSheetNoticeText = document.getElementById('successSheetNoticeText');
   const successGoogleSignInBtn = document.getElementById('successGoogleSignInBtn') as HTMLButtonElement | null;
+
+  // Email Notification UI elements
+  const successEmailBox = document.getElementById('successEmailBox');
+  const emailRecipientSubtitle = document.getElementById('emailRecipientSubtitle');
+  const openMailtoBtn = document.getElementById('openMailtoBtn') as HTMLAnchorElement | null;
+  const copyEmailSummaryBtn = document.getElementById('copyEmailSummaryBtn') as HTMLButtonElement | null;
+  const copyBtnText = document.getElementById('copyBtnText');
+  const shareEmailBtn = document.getElementById('shareEmailBtn') as HTMLButtonElement | null;
+  const printBookingReceiptBtn = document.getElementById('printBookingReceiptBtn') as HTMLButtonElement | null;
+  const toggleEmailPreviewBtn = document.getElementById('toggleEmailPreviewBtn') as HTMLButtonElement | null;
+  const emailPreviewContent = document.getElementById('emailPreviewContent');
+  const previewEmailTo = document.getElementById('previewEmailTo');
+  const previewEmailSubject = document.getElementById('previewEmailSubject');
+  const previewEmailText = document.getElementById('previewEmailText');
+
+  // Floating Toast Helper
+  let toastTimer: any = null;
+  const showToast = (message: string) => {
+    const toast = document.getElementById('appToast');
+    const toastText = document.getElementById('appToastText');
+    if (!toast) return;
+    if (toastText) toastText.textContent = message;
+    toast.classList.add('is-visible');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('is-visible');
+    }, 3200);
+  };
+
+  // Formal Email State
+  let currentFormalEmail: { subject: string; body: string; mailtoUrl: string; booking: SavedBookingRecord } | null = null;
+
+  const setupFormalEmailNotification = (record: SavedBookingRecord) => {
+    const emailData = generateFormalEmailContent(record);
+    currentFormalEmail = { ...emailData, booking: record };
+
+    if (emailRecipientSubtitle) {
+      emailRecipientSubtitle.textContent = `Client: ${record.clientEmail} • Ref: ${record.bookingId}`;
+    }
+    if (openMailtoBtn) {
+      openMailtoBtn.href = emailData.mailtoUrl;
+    }
+    if (previewEmailTo) {
+      previewEmailTo.textContent = `${record.clientName} <${record.clientEmail}>`;
+    }
+    if (previewEmailSubject) {
+      previewEmailSubject.textContent = emailData.subject;
+    }
+    if (previewEmailText) {
+      previewEmailText.textContent = emailData.body;
+    }
+
+    // Check Web Share API (widely supported on mobile iOS/Android)
+    if (shareEmailBtn) {
+      if (typeof navigator !== 'undefined' && 'share' in navigator) {
+        shareEmailBtn.style.display = 'inline-flex';
+      } else {
+        shareEmailBtn.style.display = 'none';
+      }
+    }
+
+    // Reset preview toggle
+    if (toggleEmailPreviewBtn && emailPreviewContent) {
+      toggleEmailPreviewBtn.setAttribute('aria-expanded', 'false');
+      emailPreviewContent.style.display = 'none';
+      const icon = toggleEmailPreviewBtn.querySelector('svg');
+      if (icon) icon.style.transform = 'rotate(0deg)';
+    }
+
+    if (successEmailBox) {
+      successEmailBox.style.display = 'block';
+    }
+  };
 
   // Admin Modal elements
   const adminModal = document.getElementById('adminSheetsModal');
@@ -127,6 +264,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const frequencySelect = document.getElementById('bookingFrequency') as HTMLSelectElement | null;
   const dateInput = document.getElementById('bookingDate') as HTMLInputElement | null;
 
+  // Mobile Quote elements
+  const mobileQuoteAmount = document.getElementById('mobileQuoteAmount');
+  const mobileQuoteBreakdown = document.getElementById('mobileQuoteBreakdown');
+  const mobileBottomBarQuote = document.getElementById('mobileBottomBarQuote');
+
   // Set default & minimum booking date to tomorrow
   if (dateInput) {
     const tomorrow = new Date();
@@ -139,19 +281,31 @@ document.addEventListener('DOMContentLoaded', () => {
     dateInput.value = minDateStr;
   }
 
-  // Real-time quote updater
+  // Real-time quote updater (Desktop & Mobile synchronized)
   const updatePriceQuote = () => {
-    if (!serviceSelect || !sizeSelect || !frequencySelect || !quoteDisplay) return;
+    if (!serviceSelect || !sizeSelect || !frequencySelect) return;
     const est = calculateEstimate(
       serviceSelect.value,
       sizeSelect.value,
       frequencySelect.value
     );
-    quoteDisplay.textContent = `$${est} CAD`;
+    if (quoteDisplay) {
+      quoteDisplay.textContent = `$${est} CAD`;
+    }
+    if (mobileQuoteAmount) {
+      mobileQuoteAmount.textContent = `$${est} CAD`;
+    }
+    if (mobileBottomBarQuote) {
+      mobileBottomBarQuote.textContent = `$${est}`;
+    }
+    const freqText = frequencySelect.options[frequencySelect.selectedIndex]?.text || '';
+    const sizeText = sizeSelect.options[sizeSelect.selectedIndex]?.text || '';
+    const summaryText = `${sizeText} • ${freqText}`;
     if (quoteBreakdown) {
-      const freqText = frequencySelect.options[frequencySelect.selectedIndex]?.text || '';
-      const sizeText = sizeSelect.options[sizeSelect.selectedIndex]?.text || '';
-      quoteBreakdown.textContent = `${sizeText} • ${freqText}`;
+      quoteBreakdown.textContent = summaryText;
+    }
+    if (mobileQuoteBreakdown) {
+      mobileQuoteBreakdown.textContent = summaryText;
     }
   };
 
@@ -502,6 +656,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (successGoogleSignInBtn) {
           successGoogleSignInBtn.style.display = token ? 'none' : 'inline-flex';
         }
+        // Immediately initialize the client-side formal email notification summary
+        setupFormalEmailNotification(record);
+
         successModal.classList.add('is-active');
       }
 
@@ -565,6 +722,71 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmProceedBtn.textContent = 'Confirm Reservation';
         confirmProceedBtn.disabled = false;
       }
+    }
+  });
+
+  // Copy Email Summary to clipboard
+  copyEmailSummaryBtn?.addEventListener('click', async () => {
+    if (!currentFormalEmail) return;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(currentFormalEmail.body);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = currentFormalEmail.body;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+      }
+      if (copyBtnText) copyBtnText.textContent = '✓ Copied!';
+      showToast('Formal confirmation email summary copied to clipboard!');
+      setTimeout(() => {
+        if (copyBtnText) copyBtnText.textContent = 'Copy Email Text';
+      }, 2500);
+    } catch (err) {
+      console.warn('Clipboard write failed:', err);
+      showToast('Formal confirmation summary copied to clipboard!');
+    }
+  });
+
+  // Native Mobile Web Share (Mobile Friendly)
+  shareEmailBtn?.addEventListener('click', async () => {
+    if (!currentFormalEmail || !navigator.share) return;
+    try {
+      await navigator.share({
+        title: currentFormalEmail.subject,
+        text: currentFormalEmail.body
+      });
+      showToast('Confirmation shared successfully!');
+    } catch (err: any) {
+      if (err.name !== 'AbortError') {
+        console.warn('Share error:', err);
+      }
+    }
+  });
+
+  // Print Receipt handler
+  printBookingReceiptBtn?.addEventListener('click', () => {
+    if (emailPreviewContent && toggleEmailPreviewBtn) {
+      emailPreviewContent.style.display = 'block';
+      toggleEmailPreviewBtn.setAttribute('aria-expanded', 'true');
+    }
+    window.print();
+  });
+
+  // Toggle Email Preview Collapsible
+  toggleEmailPreviewBtn?.addEventListener('click', () => {
+    if (!emailPreviewContent || !toggleEmailPreviewBtn) return;
+    const isExpanded = toggleEmailPreviewBtn.getAttribute('aria-expanded') === 'true';
+    toggleEmailPreviewBtn.setAttribute('aria-expanded', (!isExpanded).toString());
+    emailPreviewContent.style.display = isExpanded ? 'none' : 'block';
+    const icon = toggleEmailPreviewBtn.querySelector('svg');
+    if (icon) {
+      icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+      icon.style.transition = 'transform 0.2s ease';
     }
   });
 
